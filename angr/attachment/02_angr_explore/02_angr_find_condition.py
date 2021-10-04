@@ -6,7 +6,7 @@ def is_successful(state):
 def should_avoid(state):
     return b'Try again.' in state.posix.dumps(1)
 
-proj = angr.Project('dist/02_angr_find_condition')
+proj = angr.Project('../dist/02_angr_find_condition')
 state = proj.factory.entry_state()
 simgr = proj.factory.simgr(state)
 # simgr.explore(find=is_successful, avoid=should_avoid)
