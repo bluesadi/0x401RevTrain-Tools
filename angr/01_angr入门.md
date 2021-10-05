@@ -198,4 +198,3 @@ print(solver.eval(sym_flag, cast_to=bytes))
 ```
 
 这就是angr的基本用法了，之后我们会结合一些CTF的实例来进一步学习angr。
-
