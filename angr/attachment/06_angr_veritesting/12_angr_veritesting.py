@@ -1,6 +1,5 @@
 import angr
 
-angr.exploration_techniques.Veritesting
 proj = angr.Project('../dist/12_angr_veritesting')
 state = proj.factory.entry_state()
 simgr = proj.factory.simgr(state)
