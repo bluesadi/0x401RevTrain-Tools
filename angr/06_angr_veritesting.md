@@ -1,6 +1,6 @@
 前面两节我们分别学习了应对路径爆炸的两种方法——手动约束和hook，这一节我们来学习有效缓解路径爆炸的第三种方法——Veritesting。
 
-Veritesting意为路径归并，出自2014年的一篇论文[Enhancing Symbolic Execution with Veritesting](https://github.com/bluesadi/ReverseTools/tree/main/angr/attachment/06_angr_veritesting/veritesting-icse-2014.pdf)，具体原理就不说了，因为我也不懂（误）。
+Veritesting意为路径归并，出自2014年的一篇论文[Enhancing Symbolic Execution with Veritesting](https://github.com/bluesadi/ReverseTools/tree/main/angr/attachment/veritesting-icse-2014.pdf)，读者对归并的原理感兴趣的话可以阅读一下。
 
 ## 12_angr_veritesting
 
