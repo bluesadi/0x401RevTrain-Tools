@@ -30,3 +30,8 @@
 
 - [Syclover 技术小组二进制方向招新培训](https://github.com/SycloverTeam/SycRevLearn)
 - 各大逆向论坛以及博客
+
+## 对本教程有疑问？
+
+请在SCUCTF协会群内联系`0x401-34r7hm4n`或直接在本仓库中提交Issues。
+
