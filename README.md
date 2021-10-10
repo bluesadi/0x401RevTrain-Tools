@@ -24,7 +24,7 @@
 - x86汇编基础
 - 一段时间的逆向学习经验
 
-如果读者还不具备以上基础，可以先通过以下的资料学习：
+如果读者还不具备以上基础，可以先通过以下的途径学习：
 
 - [逆向入门简介 byRh](https://www.scuctf.com/ctfwiki/reverse/%E9%80%86%E5%90%91%E5%85%A5%E9%97%A8%E7%AE%80%E4%BB%8Bbyrh/)
 - [Syclover 技术小组二进制方向招新培训](https://github.com/SycloverTeam/SycRevLearn)
