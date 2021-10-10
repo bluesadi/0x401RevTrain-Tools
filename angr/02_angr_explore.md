@@ -1,6 +1,6 @@
-从这一节开始我们通过一些CTF的例子来学习angr的用法。教程中使用的例子都来自GitHub上的[angr_ctf](https://github.com/jakespringer/angr_ctf)仓库，这些例子都是非常有代表性的题目，建议读者不要光看，还要跟着练习一下，并尝试自己解决。
+从这一节开始我们通过一些典型的CTF例题来学习angr的用法，这些例子都来自GitHub上的[angr_ctf](https://github.com/jakespringer/angr_ctf)仓库，建议读者跟着教程一起练习，并尝试自己解决。
 
-第一节我们首先学习explore函数的简单用法，这是angr中最简单粗暴的一个函数，也是最常用的一个函数。
+第一节我们首先学习explore函数的简单用法，这是angr中最简单粗暴的一个函数，也是非常常用的一个函数。
 
 ## 00_angr_find
 
