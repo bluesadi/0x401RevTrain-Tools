@@ -1,6 +1,6 @@
 如果读者已经做过一些CTF赛题，或者已经对CTF赛事非常熟悉，那么一定了解过VM这类题型。VM的特点就是用非常复杂的代码表示其实并不复杂的加密流程，如果手动分析的话对逆向者来说是个体力活，但是利用angr则可以做到让我们在不分析VM指令的情况下得到flag。
 
-以2021羊城杯的[EasyVM](https://github.com/bluesadi/0x401RevTrain-Tools/tree/main/angr/attachment/EasyVM)为例，注意**不是所有的VM题都能用angr梭哈，要具体情况具体分析**！
+以2021羊城杯的[EasyVM](https://github.com/bluesadi/0x401RevTrain-Tools/tree/main/angr/attachment/EasyVM)为例，注意**不是所有的VM题都能用angr梭哈，要具体情况具体分析**！有些出题人会特意考虑angr梭哈的情况，设置陷阱抵抗angr直接梭哈，或者算法本身比较复杂，超出了符号执行或者约束求解的能力。
 
 ## 0x00. 2021羊城杯EasyVM题解（angr梭哈解法）
 
