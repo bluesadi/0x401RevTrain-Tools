@@ -1,8 +1,6 @@
 # 0x401RevTrain-Tools
 
-0x401 Team二进制方向逆向辅助分析工具专题培训
-
-[网页版](https://bluesadi.github.io/0x401RevTrain-Tools/)
+[网页版](https://bluesadi.github.io/0x401RevTrain-Tools/)	[Markdown版](docs/)
 
 ## 为什么
 
