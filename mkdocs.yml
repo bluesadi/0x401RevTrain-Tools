@@ -29,6 +29,8 @@ nav:
     - VEX IR: 09_VEX IR.md
     - 利用angr符号执行去除控制流平坦化: 10_利用angr符号执行去除控制流平坦化.md
     - 利用angr符号执行梭哈VM类CTF赛题: 11_利用angr符号执行梭哈VM类CTF赛题.md
+  - capstone:
+    - Capstone: capstone/00_Capstone.md
 
 
 # Customization
