@@ -1,3 +1,73 @@
 site_name: 0x401RevTrain-Tools
+
+repo_name: 0x401RevTrain-Tools
+repo_url: https://github.com/bluesadi/0x401RevTrain-Tools
+
+theme:
+  name: "material"
+  language: "zh"
+  feature:
+    tabs: true
+  palette:
+    primary: "white"
+    accent: "red"
+  font:
+    text: "Noto Sans"
+    code: "Source Code Pro"
 nav:
-- Home: index.md
+  - Home: index.md
+  - angr:
+    - 符号执行原理: angr/00_符号执行原理.md
+    - angr入门: angr/01_angr入门.md
+    - angr_explore: angr/02_angr_explore.md
+    - angr_symbolic: angr/03_angr_symbolic.md
+    - angr_constraints: angr/04_angr_constraints.md
+    - angr_hooks: angr/05_angr_hooks.md
+    - angr_veritesting: angr/06_angr_veritesting.md
+    - angr_library: angr/07_angr_library.md
+    - angr_overflow: angr/08_angr_overflow.md
+    - VEX IR: 09_VEX IR.md
+    - 利用angr符号执行去除控制流平坦化: 10_利用angr符号执行去除控制流平坦化.md
+    - 利用angr符号执行梭哈VM类CTF赛题: 11_利用angr符号执行梭哈VM类CTF赛题.md
+
+
+# Customization
+extra:
+  search:
+    language: "zh"
+  disqus: "scu-ctf"
+  copyright: "CC BY-NC-SA 4.0"
+
+extra_javascript:
+  - "https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js"
+  - "_static/js/extra.js"
+  - "https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"
+
+extra_css:
+  - "_static/css/extra.css"
+
+# Extensions
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - def_list
+  - footnotes
+  - meta
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde

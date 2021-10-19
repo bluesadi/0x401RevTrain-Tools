@@ -1,0 +1,897 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
+    
+    
+      
+        <title>angr_symbolic - 0x401RevTrain-Tools</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.db9e7362.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffffff">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:300,400,400i,700%7CSource+Code+Pro&display=fallback">
+        <style>:root{--md-text-font-family:"Noto Sans";--md-code-font-family:"Source Code Pro"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../_static/css/extra.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="white" data-md-color-accent="red">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#03_angr_symbolic_registers" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="0x401RevTrain-Tools" class="md-header__button md-logo" aria-label="0x401RevTrain-Tools" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            0x401RevTrain-Tools
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              angr_symbolic
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/bluesadi/0x401RevTrain-Tools/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    0x401RevTrain-Tools
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="0x401RevTrain-Tools" class="md-nav__button md-logo" aria-label="0x401RevTrain-Tools" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    0x401RevTrain-Tools
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/bluesadi/0x401RevTrain-Tools/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    0x401RevTrain-Tools
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          angr
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="angr" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          angr
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00_%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86/" class="md-nav__link">
+        符号执行原理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_angr%E5%85%A5%E9%97%A8/" class="md-nav__link">
+        angr入门
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_angr_explore/" class="md-nav__link">
+        angr_explore
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          angr_symbolic
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        angr_symbolic
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#03_angr_symbolic_registers" class="md-nav__link">
+    03_angr_symbolic_registers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#04_angr_symbolic_stack" class="md-nav__link">
+    04_angr_symbolic_stack
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#05_angr_symbolic_memory" class="md-nav__link">
+    05_angr_symbolic_memory
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#06_angr_symbolic_dynamic_memory" class="md-nav__link">
+    06_angr_symbolic_dynamic_memory
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#07_angr_symbolic_file" class="md-nav__link">
+    07_angr_symbolic_file
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_angr_constraints/" class="md-nav__link">
+        angr_constraints
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_angr_hooks/" class="md-nav__link">
+        angr_hooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_angr_veritesting/" class="md-nav__link">
+        angr_veritesting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_angr_library/" class="md-nav__link">
+        angr_library
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_angr_overflow/" class="md-nav__link">
+        angr_overflow
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_VEX IR.md" class="md-nav__link">
+        VEX IR
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_利用angr符号执行去除控制流平坦化.md" class="md-nav__link">
+        利用angr符号执行去除控制流平坦化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../11_利用angr符号执行梭哈VM类CTF赛题.md" class="md-nav__link">
+        利用angr符号执行梭哈VM类CTF赛题
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#03_angr_symbolic_registers" class="md-nav__link">
+    03_angr_symbolic_registers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#04_angr_symbolic_stack" class="md-nav__link">
+    04_angr_symbolic_stack
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#05_angr_symbolic_memory" class="md-nav__link">
+    05_angr_symbolic_memory
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#06_angr_symbolic_dynamic_memory" class="md-nav__link">
+    06_angr_symbolic_dynamic_memory
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#07_angr_symbolic_file" class="md-nav__link">
+    07_angr_symbolic_file
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/bluesadi/0x401RevTrain-Tools/edit/master/docs/angr/03_angr_symbolic.md" title="编辑此页" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  <h1>angr_symbolic</h1>
+                
+                <p>之前提到过，angr在默认情况下只会符号化从标准输入流中读取的数据，而实际情况往往需要我们符号化其他数据，如寄存器、某块内存甚至是某个文件。这一节我们来学习如何手动符号化并且利用angr内置的约束求解器对符号值进行约束求解。</p>
+<h2 id="03_angr_symbolic_registers">03_angr_symbolic_registers<a class="headerlink" href="#03_angr_symbolic_registers" title="Permanent link">&para;</a></h2>
+<p>这题的逻辑也非常简单：</p>
+<p><img alt="image-20211003222200477" src="../img/image-20211003222200477.png" /></p>
+<p>当然了，这种题显然也是可以用之前的方法跑出来的：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">angr</span>
+
+<span class="n">proj</span> <span class="o">=</span> <span class="n">angr</span><span class="o">.</span><span class="n">Project</span><span class="p">(</span><span class="s1">&#39;../dist/03_angr_symbolic_registers&#39;</span><span class="p">)</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">entry_state</span><span class="p">()</span>
+<span class="n">simgr</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">simgr</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="n">simgr</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span>
+    <span class="n">find</span><span class="o">=</span><span class="k">lambda</span> <span class="n">state</span> <span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;Good Job.&#39;</span> <span class="ow">in</span> <span class="n">state</span><span class="o">.</span><span class="n">posix</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">avoid</span><span class="o">=</span><span class="k">lambda</span> <span class="n">state</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;Try again.&#39;</span> <span class="ow">in</span> <span class="n">state</span><span class="o">.</span><span class="n">posix</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">simgr</span><span class="o">.</span><span class="n">found</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">posix</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+</code></pre></div>
+<p>输出：</p>
+<div class="highlight"><pre><span></span><code><span class="sa">b</span><span class="s1">&#39;b9ffd04e ccf63fe8 8fd4d959&#39;</span>
+</code></pre></div>
+<p>但为了体现本节的主题，即手动符号化与约束求解，我们尝试换一种方法来解决这道题。</p>
+<p>要准确进行符号化，我们得从汇编着手分析：</p>
+<p><img alt="image-20211003225240482" src="../img/image-20211003225240482.png" /></p>
+<p><img alt="image-20211003225222201" src="../img/image-20211003225222201.png" /></p>
+<p>我们从以上用红色框框标记的关键指令处可以分析出get_user_input读入的3个int是分别保存在eax, ebx和edx寄存器中的，因此我们可以把这三个寄存器符号化：</p>
+<div class="highlight"><pre><span></span><code><span class="n">password0</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password0&#39;</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">password1</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password1&#39;</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">password2</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password2&#39;</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">eax</span> <span class="o">=</span> <span class="n">password0</span>
+<span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">ebx</span> <span class="o">=</span> <span class="n">password1</span>
+<span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">edx</span> <span class="o">=</span> <span class="n">password2</span>
+</code></pre></div>
+<p>然后让程序跑到0x080489E6这个地址：</p>
+<div class="highlight"><pre><span></span><code><span class="n">simgr</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">find</span><span class="o">=</span><span class="mh">0x80489E6</span><span class="p">)</span>
+</code></pre></div>
+<p><img alt="image-20211003225601024" src="../img/image-20211003225601024.png" /></p>
+<p>在这个地址对应的状态下对我们之前注入的符号值进行约束求解，之前说过SimState内置的约束求解器是会保存当前的路径约束的，所以我们不需要添加额外约束了：</p>
+<div class="highlight"><pre><span></span><code><span class="n">solver</span> <span class="o">=</span> <span class="n">simgr</span><span class="o">.</span><span class="n">found</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">solver</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;password0: </span><span class="si">{</span><span class="nb">hex</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">password0</span><span class="p">))</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;password1: </span><span class="si">{</span><span class="nb">hex</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">password1</span><span class="p">))</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;password2: </span><span class="si">{</span><span class="nb">hex</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">password2</span><span class="p">))</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>完整代码：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">angr</span>
+<span class="kn">import</span> <span class="nn">claripy</span>
+
+<span class="n">proj</span> <span class="o">=</span> <span class="n">angr</span><span class="o">.</span><span class="n">Project</span><span class="p">(</span><span class="s1">&#39;../dist/03_angr_symbolic_registers&#39;</span><span class="p">)</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">blank_state</span><span class="p">(</span><span class="n">addr</span><span class="o">=</span><span class="mh">0x8048980</span><span class="p">)</span>
+<span class="n">password0</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password0&#39;</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">password1</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password1&#39;</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">password2</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password2&#39;</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">eax</span> <span class="o">=</span> <span class="n">password0</span>
+<span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">ebx</span> <span class="o">=</span> <span class="n">password1</span>
+<span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">edx</span> <span class="o">=</span> <span class="n">password2</span>
+<span class="n">simgr</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">simgr</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="n">simgr</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">find</span><span class="o">=</span><span class="mh">0x80489E6</span><span class="p">)</span>
+<span class="n">solver</span> <span class="o">=</span> <span class="n">simgr</span><span class="o">.</span><span class="n">found</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">solver</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;password0: </span><span class="si">{</span><span class="nb">hex</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">password0</span><span class="p">))</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;password1: </span><span class="si">{</span><span class="nb">hex</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">password1</span><span class="p">))</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;password2: </span><span class="si">{</span><span class="nb">hex</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">password2</span><span class="p">))</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>输出：</p>
+<div class="highlight"><pre><span></span><code><span class="n">password0</span><span class="p">:</span> <span class="mh">0xb9ffd04e</span>
+<span class="n">password1</span><span class="p">:</span> <span class="mh">0xccf63fe8</span>
+<span class="n">password2</span><span class="p">:</span> <span class="mh">0x8fd4d959</span>
+</code></pre></div>
+<p>注意这里的初始state是通过blank_state函数而不是entry_state函数获得的：</p>
+<div class="highlight"><pre><span></span><code><span class="n">state</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">blank_state</span><span class="p">(</span><span class="n">addr</span><span class="o">=</span><span class="mh">0x8048980</span><span class="p">)</span>
+</code></pre></div>
+<p>因为在0x8048980之前的指令对我们的求解其实是没有任何作用的，包括get_user_input函数，因为接下来我们就要将get_user_input函数的结果符号化了，而不是让angr自动帮我们符号化通过scanf读取的数据：</p>
+<p><img alt="image-20211003230745952" src="../img/image-20211003230745952.png" /></p>
+<p>可能有同学还会有疑问：如果直接从0x8048980这个地址开始符号执行，那初始的状态是什么样的呢？根据x86汇编常识，像eax，ebx，ecx这样的寄存器是上下文无关的，也就是说一个函数内不会引用在函数外部设置的eax，ebx或者ecx的值，而是在函数内部对寄存器重新初始化并使用，例如：</p>
+<p><img alt="image-20211003231331483" src="../img/image-20211003231331483.png" /></p>
+<p>所以我们用blank_state获取的状态，即时初始的一些寄存器处于未初始化状态也是丝毫没有影响的，因为它们马上就会被初始化：</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">ecx</span>
+<span class="o">&lt;</span><span class="n">BV32</span> <span class="n">reg_c_3_32</span><span class="p">{</span><span class="n">UNINITIALIZED</span><span class="p">}</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>至于esp，angr会给他们一个默认的初值，使接下来的函数调用不会爆炸：</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">esp</span>
+<span class="o">&lt;</span><span class="n">BV32</span> <span class="mh">0x7fff0000</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>ebp的初始值仍然是未初始化的，但对我们后续的符号执行没有影响，不管它就行：</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">ebp</span>
+<span class="o">&lt;</span><span class="n">BV32</span> <span class="n">reg_1c_3_32</span><span class="p">{</span><span class="n">UNINITIALIZED</span><span class="p">}</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>这部分解释起来比较困难，需要读者本身对x86汇编非常之熟悉，所以如果大家还没有弄明白，是因为对x86汇编还不够熟悉，而不是作者没有解释清楚（误）。</p>
+<h2 id="04_angr_symbolic_stack">04_angr_symbolic_stack<a class="headerlink" href="#04_angr_symbolic_stack" title="Permanent link">&para;</a></h2>
+<p>了解了对寄存器的符号化之后，我们再看看如何对栈空间内的数据进行符号化。还是先来看看这题的逻辑：</p>
+<p><img alt="image-20211003231921552" src="../img/image-20211003231921552.png" /></p>
+<p>我们仍然从scanf的后面一条指令开始：</p>
+<p><img alt="image-20211003234750463" src="../img/image-20211003234750463.png" /></p>
+<div class="highlight"><pre><span></span><code><span class="n">state</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">blank_state</span><span class="p">(</span><span class="n">addr</span><span class="o">=</span><span class="mh">0x8048694</span><span class="p">)</span>
+</code></pre></div>
+<p>之前我们说过通过blank_state获取初始状态，ebp的值是未约束的。在这题中，我们之后要向栈中push符号值，并且通过ebp索引这些符号值（比如<code>[ebp+var_C]</code>），所以我们得让ebp有一个正确的初值了。之所以说是正确的初值，是因为我们跳过了函数开头对栈的调整，因此我们还需要手动调整ebp的值：</p>
+<p><img alt="image-20211004000749119" src="../img/image-20211004000749119.png" /></p>
+<p>ebp的值是什么不重要，我们只需要保证它和esp的偏移是正确的即可，对前面的汇编指令进行分析我们可以得出此时ebp的偏移量为：0x18+4+4+4+4=40</p>
+<div class="highlight"><pre><span></span><code><span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">ebp</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">esp</span> <span class="o">+</span> <span class="mi">40</span>
+</code></pre></div>
+<p>然后对esp的值执行调整，使我们接下来push进去的符号值恰好在[ebp+var_10]和[ebp+var_C]这两个位置，记得push完之后要把esp调回来哦：</p>
+<div class="highlight"><pre><span></span><code><span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">esp</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">ebp</span> <span class="o">-</span> <span class="mh">0xC</span> <span class="o">+</span> <span class="mi">4</span>
+<span class="n">password0</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password0&#39;</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">password1</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password1&#39;</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">stack_push</span><span class="p">(</span><span class="n">password0</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">stack_push</span><span class="p">(</span><span class="n">password1</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">esp</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">ebp</span> <span class="o">-</span> <span class="mi">40</span>
+</code></pre></div>
+<p><img alt="image-20211004004927674" src="../img/image-20211004004927674.png" /></p>
+<p>完整代码：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">angr</span>
+<span class="kn">import</span> <span class="nn">claripy</span>
+
+<span class="n">proj</span> <span class="o">=</span> <span class="n">angr</span><span class="o">.</span><span class="n">Project</span><span class="p">(</span><span class="s1">&#39;../dist/04_angr_symbolic_stack&#39;</span><span class="p">)</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">blank_state</span><span class="p">(</span><span class="n">addr</span><span class="o">=</span><span class="mh">0x8048694</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">ebp</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">esp</span> <span class="o">+</span> <span class="mi">40</span>
+<span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">esp</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">ebp</span> <span class="o">-</span> <span class="mh">0xC</span> <span class="o">+</span> <span class="mi">4</span>
+<span class="n">password0</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password0&#39;</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">password1</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password1&#39;</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">stack_push</span><span class="p">(</span><span class="n">password0</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">stack_push</span><span class="p">(</span><span class="n">password1</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">esp</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">regs</span><span class="o">.</span><span class="n">ebp</span> <span class="o">-</span> <span class="mi">40</span>
+<span class="n">simgr</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">simgr</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="n">simgr</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">find</span><span class="o">=</span><span class="mh">0x80486E1</span><span class="p">)</span>
+<span class="n">solver</span> <span class="o">=</span> <span class="n">simgr</span><span class="o">.</span><span class="n">found</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">solver</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;password0: </span><span class="si">{</span><span class="nb">hex</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">password0</span><span class="p">))</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;password1: </span><span class="si">{</span><span class="nb">hex</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">password1</span><span class="p">))</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>输出：</p>
+<div class="highlight"><pre><span></span><code><span class="n">password0</span><span class="p">:</span> <span class="mh">0x65954334</span>
+<span class="n">password1</span><span class="p">:</span> <span class="mh">0x8dffa41f</span>
+</code></pre></div>
+<p>这题的关键在于维护堆栈，同样需要读者对x86汇编语言有一定的理解。当然这题有更简单的写法，这一节所有的题都有简单写法，只不过为了让大家能够学到angr的用法而故意写得复杂了。</p>
+<h2 id="05_angr_symbolic_memory">05_angr_symbolic_memory<a class="headerlink" href="#05_angr_symbolic_memory" title="Permanent link">&para;</a></h2>
+<p>这题的输入保存在一个全局变量<code>user_input</code>里，逻辑还是比较简单：</p>
+<p><img alt="image-20211004105952839" src="../img/image-20211004105952839.png" /></p>
+<p><img alt="image-20211004110026490" src="../img/image-20211004110026490.png" /></p>
+<p>我们只需要对<code>user_input</code>进行符号化即可，也就是对0xA1BA1C0开始的32字节内存进行符号化，对内存进行符号化的方法如下：</p>
+<div class="highlight"><pre><span></span><code><span class="n">password0</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password0&#39;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="n">password1</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password1&#39;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="n">password2</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password2&#39;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="n">password3</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password3&#39;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xA1BA1C0</span><span class="p">]</span><span class="o">.</span><span class="n">uint64_t</span> <span class="o">=</span> <span class="n">password0</span>
+<span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xA1BA1C0</span> <span class="o">+</span> <span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">uint64_t</span> <span class="o">=</span> <span class="n">password1</span>
+<span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xA1BA1C0</span> <span class="o">+</span> <span class="mi">16</span><span class="p">]</span><span class="o">.</span><span class="n">uint64_t</span> <span class="o">=</span> <span class="n">password2</span>
+<span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xA1BA1C0</span> <span class="o">+</span> <span class="mi">24</span><span class="p">]</span><span class="o">.</span><span class="n">uint64_t</span> <span class="o">=</span> <span class="n">password3</span>
+</code></pre></div>
+<p>如果我们要获取内存中的数据（具体值或者符号值），可以这样用：</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xA1BA1C0</span><span class="p">]</span><span class="o">.</span><span class="n">uint64_t</span><span class="o">.</span><span class="n">resolved</span>
+<span class="o">&lt;</span><span class="n">BV64</span> <span class="n">password0_0_64</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>完整代码如下：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">angr</span>
+<span class="kn">import</span> <span class="nn">claripy</span>
+
+<span class="n">proj</span> <span class="o">=</span> <span class="n">angr</span><span class="o">.</span><span class="n">Project</span><span class="p">(</span><span class="s1">&#39;../dist/05_angr_symbolic_memory&#39;</span><span class="p">)</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">blank_state</span><span class="p">(</span><span class="n">addr</span><span class="o">=</span><span class="mh">0x80485FE</span><span class="p">)</span>
+<span class="n">password0</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password0&#39;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="n">password1</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password1&#39;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="n">password2</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password2&#39;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="n">password3</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password3&#39;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xA1BA1C0</span><span class="p">]</span><span class="o">.</span><span class="n">uint64_t</span> <span class="o">=</span> <span class="n">password0</span>
+<span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xA1BA1C0</span> <span class="o">+</span> <span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">uint64_t</span> <span class="o">=</span> <span class="n">password1</span>
+<span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xA1BA1C0</span> <span class="o">+</span> <span class="mi">16</span><span class="p">]</span><span class="o">.</span><span class="n">uint64_t</span> <span class="o">=</span> <span class="n">password2</span>
+<span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xA1BA1C0</span> <span class="o">+</span> <span class="mi">24</span><span class="p">]</span><span class="o">.</span><span class="n">uint64_t</span> <span class="o">=</span> <span class="n">password3</span>
+<span class="n">simgr</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">simgr</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="n">simgr</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">find</span><span class="o">=</span><span class="mh">0x804866A</span><span class="p">)</span>
+<span class="n">solver</span> <span class="o">=</span> <span class="n">simgr</span><span class="o">.</span><span class="n">found</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">solver</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;password0: </span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">password0</span><span class="p">,</span> <span class="n">cast_to</span><span class="o">=</span><span class="nb">bytes</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;password1: </span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">password1</span><span class="p">,</span> <span class="n">cast_to</span><span class="o">=</span><span class="nb">bytes</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;password2: </span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">password2</span><span class="p">,</span> <span class="n">cast_to</span><span class="o">=</span><span class="nb">bytes</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;password3: </span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">password3</span><span class="p">,</span> <span class="n">cast_to</span><span class="o">=</span><span class="nb">bytes</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>输出：</p>
+<div class="highlight"><pre><span></span><code><span class="n">password0</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;RNGHTXAN&#39;</span>
+<span class="n">password1</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;EWPTFSVJ&#39;</span>
+<span class="n">password2</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;CWHUAGML&#39;</span>
+<span class="n">password3</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;ULAPCDMX&#39;</span>
+</code></pre></div>
+<h2 id="06_angr_symbolic_dynamic_memory">06_angr_symbolic_dynamic_memory<a class="headerlink" href="#06_angr_symbolic_dynamic_memory" title="Permanent link">&para;</a></h2>
+<p>这题使用了malloc函数来动态分配内存，因此输入的地址就不是固定的了：</p>
+<p><img alt="image-20211004111459082" src="../img/image-20211004111459082.png" /></p>
+<p>但我们仍然可以在内存中选定一块区域作为输入的地址，比如说在.bss段选定一块未使用的16字节区域，然后对输入进行符号化：</p>
+<p><img alt="image-20211004111748694" src="../img/image-20211004111748694.png" /></p>
+<div class="highlight"><pre><span></span><code><span class="n">password0</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password0&#39;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="n">password1</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password1&#39;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xABCC700</span><span class="p">]</span><span class="o">.</span><span class="n">uint64_t</span> <span class="o">=</span> <span class="n">password0</span>
+<span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xABCC700</span> <span class="o">+</span> <span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">uint64_t</span> <span class="o">=</span> <span class="n">password1</span>
+</code></pre></div>
+<p>然后将buffer0和buffer1的地址设成我们刚刚选定的地址：</p>
+<p><img alt="image-20211004111922120" src="../img/image-20211004111922120.png" /></p>
+<div class="highlight"><pre><span></span><code><span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xABCC8A4</span><span class="p">]</span><span class="o">.</span><span class="n">uint32_t</span> <span class="o">=</span> <span class="mh">0xABCC700</span>
+<span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xABCC8AC</span><span class="p">]</span><span class="o">.</span><span class="n">uint32_t</span> <span class="o">=</span> <span class="mh">0xABCC700</span> <span class="o">+</span> <span class="mi">8</span>
+</code></pre></div>
+<p>完整代码：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">angr</span>
+<span class="kn">import</span> <span class="nn">claripy</span>
+
+<span class="n">proj</span> <span class="o">=</span> <span class="n">angr</span><span class="o">.</span><span class="n">Project</span><span class="p">(</span><span class="s1">&#39;../dist/06_angr_symbolic_dynamic_memory&#39;</span><span class="p">)</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">blank_state</span><span class="p">(</span><span class="n">addr</span><span class="o">=</span><span class="mh">0x8048696</span><span class="p">)</span>
+<span class="n">password0</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password0&#39;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="n">password1</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password1&#39;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xABCC700</span><span class="p">]</span><span class="o">.</span><span class="n">uint64_t</span> <span class="o">=</span> <span class="n">password0</span>
+<span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xABCC700</span> <span class="o">+</span> <span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">uint64_t</span> <span class="o">=</span> <span class="n">password1</span>
+<span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xABCC8A4</span><span class="p">]</span><span class="o">.</span><span class="n">uint32_t</span> <span class="o">=</span> <span class="mh">0xABCC700</span>
+<span class="n">state</span><span class="o">.</span><span class="n">mem</span><span class="p">[</span><span class="mh">0xABCC8AC</span><span class="p">]</span><span class="o">.</span><span class="n">uint32_t</span> <span class="o">=</span> <span class="mh">0xABCC700</span> <span class="o">+</span> <span class="mi">8</span>
+<span class="n">simgr</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">simgr</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="n">simgr</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">find</span><span class="o">=</span><span class="mh">0x8048759</span><span class="p">)</span>
+<span class="n">solver</span> <span class="o">=</span> <span class="n">simgr</span><span class="o">.</span><span class="n">found</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">solver</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;password0: </span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">password0</span><span class="p">,</span> <span class="n">cast_to</span><span class="o">=</span><span class="nb">bytes</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;password1: </span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">password1</span><span class="p">,</span> <span class="n">cast_to</span><span class="o">=</span><span class="nb">bytes</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>输出：</p>
+<div class="highlight"><pre><span></span><code><span class="n">password0</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;VBMLKDBU&#39;</span>
+<span class="n">password1</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;SYNREONU&#39;</span>
+</code></pre></div>
+<h2 id="07_angr_symbolic_file">07_angr_symbolic_file<a class="headerlink" href="#07_angr_symbolic_file" title="Permanent link">&para;</a></h2>
+<p>这题是先把输入写进文件，再从文件中读取输入：</p>
+<p><img alt="image-20211004114221297" src="../img/image-20211004114221297.png" /></p>
+<p><img alt="image-20211004114229957" src="../img/image-20211004114229957.png" /></p>
+<p>在这题中我们要忽略scanf，直接对文件的内容进行符号化。要对文件内容进行符号化，首先我们要创建一个模拟的文件<code>SimFile</code>，文件名为'OJKSQYDP.txt'，内容为8字节的符号值，大小为0x40字节：</p>
+<div class="highlight"><pre><span></span><code><span class="n">password0</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password0&#39;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="n">sim_file</span> <span class="o">=</span> <span class="n">angr</span><span class="o">.</span><span class="n">SimFile</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;OJKSQYDP.txt&#39;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">password0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mh">0x40</span><span class="p">)</span>
+</code></pre></div>
+<p>然后插入到state的文件系统（FileSystem）中，state的文件系统可以通过state.fs获得：</p>
+<div class="highlight"><pre><span></span><code><span class="n">state</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;OJKSQYDP.txt&#39;</span><span class="p">,</span> <span class="n">sim_file</span><span class="p">)</span>
+</code></pre></div>
+<p>完整代码：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">angr</span>
+<span class="kn">import</span> <span class="nn">claripy</span>
+
+<span class="n">proj</span> <span class="o">=</span> <span class="n">angr</span><span class="o">.</span><span class="n">Project</span><span class="p">(</span><span class="s1">&#39;../dist/07_angr_symbolic_file&#39;</span><span class="p">)</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">blank_state</span><span class="p">(</span><span class="n">addr</span><span class="o">=</span><span class="mh">0x80488D3</span><span class="p">)</span>
+<span class="n">password0</span> <span class="o">=</span> <span class="n">claripy</span><span class="o">.</span><span class="n">BVS</span><span class="p">(</span><span class="s1">&#39;password0&#39;</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
+<span class="n">sim_file</span> <span class="o">=</span> <span class="n">angr</span><span class="o">.</span><span class="n">SimFile</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;OJKSQYDP.txt&#39;</span><span class="p">,</span> <span class="n">content</span><span class="o">=</span><span class="n">password0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mh">0x40</span><span class="p">)</span>
+<span class="n">state</span><span class="o">.</span><span class="n">fs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s1">&#39;OJKSQYDP.txt&#39;</span><span class="p">,</span> <span class="n">sim_file</span><span class="p">)</span>
+<span class="n">simgr</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">simgr</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="n">simgr</span><span class="o">.</span><span class="n">explore</span><span class="p">(</span><span class="n">find</span><span class="o">=</span><span class="mh">0x80489AD</span><span class="p">)</span>
+<span class="n">solver</span> <span class="o">=</span> <span class="n">simgr</span><span class="o">.</span><span class="n">found</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">solver</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;password0: </span><span class="si">{</span><span class="n">solver</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">password0</span><span class="p">,</span> <span class="n">cast_to</span><span class="o">=</span><span class="nb">bytes</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>输出：</p>
+<div class="highlight"><pre><span></span><code><span class="n">password0</span><span class="p">:</span> <span class="sa">b</span><span class="s1">&#39;AZOMMMZM&#39;</span>
+</code></pre></div>
+                
+              
+              
+                
+
+
+  <h2 id="__comments">评论</h2>
+  <div id="disqus_thread"></div>
+  <script>var script,disqus_config=function(){this.page.url="None",this.page.identifier="None"};"undefined"==typeof DISQUS?((script=document.createElement("script")).async=!0,script.src="https://scu-ctf.disqus.com/embed.js",script.setAttribute("data-timestamp",Date.now()),document.body.appendChild(script)):DISQUS.reset({reload:!0,config:disqus_config})</script>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../02_angr_explore/" class="md-footer__link md-footer__link--prev" aria-label="上一页: angr_explore" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              angr_explore
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../04_angr_constraints/" class="md-footer__link md-footer__link--next" aria-label="下一页: angr_constraints" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              angr_constraints
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.1e84347e.min.js"></script>
+      
+        <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+      
+        <script src="../../_static/js/extra.js"></script>
+      
+        <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

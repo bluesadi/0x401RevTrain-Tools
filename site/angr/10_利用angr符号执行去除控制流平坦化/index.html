@@ -1,0 +1,1101 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
+    
+    
+      
+        <title>10 利用angr符号执行去除控制流平坦化 - 0x401RevTrain-Tools</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.db9e7362.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffffff">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:300,400,400i,700%7CSource+Code+Pro&display=fallback">
+        <style>:root{--md-text-font-family:"Noto Sans";--md-code-font-family:"Source Code Pro"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../_static/css/extra.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="white" data-md-color-accent="red">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#0x00" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="0x401RevTrain-Tools" class="md-header__button md-logo" aria-label="0x401RevTrain-Tools" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            0x401RevTrain-Tools
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              10 利用angr符号执行去除控制流平坦化
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/bluesadi/0x401RevTrain-Tools/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    0x401RevTrain-Tools
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="0x401RevTrain-Tools" class="md-nav__button md-logo" aria-label="0x401RevTrain-Tools" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    0x401RevTrain-Tools
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/bluesadi/0x401RevTrain-Tools/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    0x401RevTrain-Tools
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          angr
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="angr" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          angr
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00_%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86/" class="md-nav__link">
+        符号执行原理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_angr%E5%85%A5%E9%97%A8/" class="md-nav__link">
+        angr入门
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_angr_explore/" class="md-nav__link">
+        angr_explore
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_angr_symbolic/" class="md-nav__link">
+        angr_symbolic
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_angr_constraints/" class="md-nav__link">
+        angr_constraints
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05_angr_hooks/" class="md-nav__link">
+        angr_hooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_angr_veritesting/" class="md-nav__link">
+        angr_veritesting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_angr_library/" class="md-nav__link">
+        angr_library
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08_angr_overflow/" class="md-nav__link">
+        angr_overflow
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../09_VEX IR.md" class="md-nav__link">
+        VEX IR
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../10_利用angr符号执行去除控制流平坦化.md" class="md-nav__link">
+        利用angr符号执行去除控制流平坦化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../11_利用angr符号执行梭哈VM类CTF赛题.md" class="md-nav__link">
+        利用angr符号执行梭哈VM类CTF赛题
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0x00" class="md-nav__link">
+    0x00. 初步分析
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x01-cfg" class="md-nav__link">
+    0x01. 静态分析CFG
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x02" class="md-nav__link">
+    0x02. 重建控制流
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x03-patch" class="md-nav__link">
+    0x03. Patch程序
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x04" class="md-nav__link">
+    0x04. 检验反混淆效果
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x05" class="md-nav__link">
+    0x05. 完整代码
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/bluesadi/0x401RevTrain-Tools/edit/master/docs/angr/10_利用angr符号执行去除控制流平坦化.md" title="编辑此页" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  <h1>10 利用angr符号执行去除控制流平坦化</h1>
+                
+                <p>最后一节我们学习如何用angr解决实际问题——利用angr符号执行去除控制流平坦化。在阅读本节教程之前，你需要先了解什么是控制流平坦化，这里不再赘述：</p>
+<ul>
+<li><a href="https://github.com/obfuscator-llvm/obfuscator/wiki/Control-Flow-Flattening">Control Flow Flattening</a></li>
+<li><a href="https://bbs.pediy.com/thread-266082.htm">基于LLVM Pass实现控制流平坦化 </a></li>
+</ul>
+<p>本节的内容主要是是腾讯应急响应中心2017年一篇博客的复现，因此一些原文已经解释得很清楚的内容不会在本节重述：</p>
+<ul>
+<li><a href="https://security.tencent.com/index.php/blog/msg/112">利用符号执行去除控制流平坦化</a></li>
+</ul>
+<p>同时也参考了QuarksLab的这篇博客：</p>
+<ul>
+<li><a href="https://blog.quarkslab.com/deobfuscation-recovering-an-ollvm-protected-program.html">Deobfuscation: recovering an OLLVM-protected program</a></li>
+</ul>
+<p>代码主要参考：</p>
+<ul>
+<li><a href="https://github.com/cq674350529/deflat/blob/master/flat_control_flow/deflat.py">cq674350529/deflat</a></li>
+</ul>
+<h2 id="0x00">0x00. 初步分析<a class="headerlink" href="#0x00" title="Permanent link">&para;</a></h2>
+<p>还是按照惯例我们通过一个简单的程序进行讲解：</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdio&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstring&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdlib&gt;</span><span class="cp"></span>
+
+<span class="kt">char</span><span class="w"> </span><span class="n">input</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span><span class="w"></span>
+<span class="kt">char</span><span class="w"> </span><span class="n">enc</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\x86\x8a\x7d\x87\x93\x8b\x4d\x81\x80\x8a\x43\x7f\x86\x4b\x84\x7f\x51\x90\x7f\x62\x2b\x6d\x2c\x91</span><span class="s">&quot;</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">encrypt</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">src</span><span class="p">){</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">len</span><span class="p">;</span><span class="n">i</span><span class="w"> </span><span class="o">++</span><span class="p">){</span><span class="w"></span>
+<span class="w">        </span><span class="n">dest</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">src</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="mi">32</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="p">))</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+
+<span class="c1">// flag{s1mpl3_v3x_1r_d3m0}</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(){</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Please input your flag: &quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">scanf</span><span class="p">(</span><span class="s">&quot;%s&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">input</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">strlen</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">24</span><span class="p">){</span><span class="w"></span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Wrong length!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">dest</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="n">encrypt</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">input</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">memcmp</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span><span class="w"> </span><span class="n">enc</span><span class="p">,</span><span class="w"> </span><span class="mi">24</span><span class="p">)){</span><span class="w"></span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Congratulations~</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="k">else</span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Sorry try again.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+<p>在Ubuntu下编译正常的可执行文件：</p>
+<div class="highlight"><pre><span></span><code>clang TestProgram.cpp -o TestProgram
+</code></pre></div>
+<p>编译控制流平坦化混淆后的可执行文件：</p>
+<div class="highlight"><pre><span></span><code>clang -mllvm -fla -mllvm -split -mllvm -split_num<span class="o">=</span><span class="m">3</span> TestProgram.cpp -o TestProgram_fla
+</code></pre></div>
+<p>在IDA中打开这两个可执行文件，首先是正常的可执行文件TestProgram，CFG的逻辑比较清晰易懂：</p>
+<p><img alt="image-20211010233549919" src="../img/image-20211010233549919.png" /></p>
+<p>再看看控制流平坦化混淆后的CFG，虽然程序逻辑已经被混淆了，但其结构还是有规律可循的：</p>
+<p><img alt="image-20211010233722929" src="../img/image-20211010233722929.png" /></p>
+<p>控制流平坦化后的CFG中的基本块大致可以分为以下几类，这几类基本块的含义读者可以阅读腾讯应急响应实验室的那篇博客，这里不再赘述：</p>
+<p><img alt="img" src="../img/4QPQLW6I53JXT%25QDBAPTBV.png" /></p>
+<p>总结来说，利用angr符号执行去除控制流平坦化的步骤可以归结为三个步骤：</p>
+<ol>
+<li>静态分析CFG得到序言/入口块（Prologue）、主分发器（Main dispatcher）、子分发器/无用块（Sub dispatchers）、真实块（Relevant blocks）、预分发器（Predispatcher）和返回块（Return）</li>
+<li>利用符号执行恢复真实块的前后关系，重建控制流</li>
+<li>根据第二步重建的控制流Patch程序，输出恢复后的可执行文件</li>
+</ol>
+<h2 id="0x01-cfg">0x01. 静态分析CFG<a class="headerlink" href="#0x01-cfg" title="Permanent link">&para;</a></h2>
+<p>整个程序的CFG可以通过CFGFast函数得到：</p>
+<div class="highlight"><pre><span></span><code><span class="n">cfg</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">analyses</span><span class="o">.</span><span class="n">CFGFast</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force_complete_scan</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p>但angr的CFG会将call指令也视为跳转的一种，作为基本块的最后一条指令，而IDA中只会将jmp一类的指令以及ret和call exit作为基本块的最后一条指令，并且IDA中的CFG是以函数为单位的，而不是整个程序：</p>
+<p><img alt="image-20211011000810138" src="../img/image-20211011000810138.png" /></p>
+<p>所以我们要通过angrmangement中的to_supergraph函数将angr的CFG单个函数的CFG，再转化为类似IDA的CFG，代码如下：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_cfg</span><span class="p">():</span>
+    <span class="n">cfg</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">analyses</span><span class="o">.</span><span class="n">CFGFast</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force_complete_scan</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">function_cfg</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">functions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">start</span><span class="p">)</span><span class="o">.</span><span class="n">transition_graph</span>
+    <span class="n">super_cfg</span> <span class="o">=</span> <span class="n">to_supergraph</span><span class="p">(</span><span class="n">function_cfg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">super_cfg</span>
+</code></pre></div>
+<p>这样我们就得到了一个类似IDA的CFG，接着我们要通过分析平坦化后的控制流的结构规律来识别出各类型的基本块，识别方法如下：</p>
+<ul>
+<li>序言/入口块（Prologue）：没有前驱块的基本块即是入口块</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">in_degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">prologue_node</span> <span class="o">=</span> <span class="n">node</span>
+</code></pre></div>
+<ul>
+<li>返回块（Return）：没有后继块的基本块即是返回块，返回块可能有多个</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">retn_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">in_degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">prologue_node</span> <span class="o">=</span> <span class="n">node</span>
+    <span class="k">elif</span> <span class="n">cfg</span><span class="o">.</span><span class="n">out_degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">retn_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</code></pre></div>
+<ul>
+<li>主分发器（Main dispatcher）：入口块的后继块即为主分发器</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">main_dispatcher_node</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">successors</span><span class="p">(</span><span class="n">prologue_node</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+<ul>
+<li>预分发器（Predispatcher）：主分发器的前驱块，且不为入口块</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">main_dispatcher_node</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="o">!=</span> <span class="n">prologue_node</span><span class="o">.</span><span class="n">addr</span><span class="p">:</span>
+        <span class="n">predispatcher_node</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="k">break</span>
+</code></pre></div>
+<ul>
+<li>真实块（Relevant blocks）：预分发器的前驱块，为了后续处理方便，这里也把入口块算作真实块</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">relevant_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">prologue_node</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">predispatcher_node</span><span class="p">):</span>
+        <span class="n">relevant_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</code></pre></div>
+<ul>
+<li>子分发器/无用块（Sub dispatchers）：除上述基本块之外的基本块都为子分发器，因为子分发器再恢复之后的控制流中不起任何作用，所以也叫作无用块，之后要被Nop掉</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">relevant_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">prologue_node</span><span class="p">]</span>
+<span class="n">sub_dispatcher_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">predispatcher_node</span><span class="p">):</span>
+        <span class="n">relevant_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">node</span> <span class="o">!=</span> <span class="n">prologue_node</span> <span class="ow">and</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">retn_nodes</span><span class="p">:</span>
+        <span class="n">sub_dispatcher_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</code></pre></div>
+<p>完整代码如下：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">analyse_blocks</span><span class="p">():</span>
+    <span class="n">retn_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">in_degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">prologue_node</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="k">elif</span> <span class="n">cfg</span><span class="o">.</span><span class="n">out_degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">retn_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="n">main_dispatcher_node</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">successors</span><span class="p">(</span><span class="n">prologue_node</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">main_dispatcher_node</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="o">!=</span> <span class="n">prologue_node</span><span class="o">.</span><span class="n">addr</span><span class="p">:</span>
+            <span class="n">predispatcher_node</span> <span class="o">=</span> <span class="n">node</span>
+            <span class="k">break</span>
+    <span class="n">relevant_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">prologue_node</span><span class="p">]</span>
+    <span class="n">sub_dispatcher_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">predispatcher_node</span><span class="p">):</span>
+            <span class="n">relevant_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">node</span> <span class="o">!=</span> <span class="n">prologue_node</span> <span class="ow">and</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">retn_nodes</span><span class="p">:</span>
+            <span class="n">sub_dispatcher_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">prologue_node</span><span class="p">,</span> <span class="n">main_dispatcher_node</span><span class="p">,</span> <span class="n">sub_dispatcher_nodes</span><span class="p">,</span> <span class="n">retn_nodes</span><span class="p">,</span> <span class="n">relevant_nodes</span><span class="p">,</span> <span class="n">predispatcher_node</span>
+</code></pre></div>
+<h2 id="0x02">0x02. 重建控制流<a class="headerlink" href="#0x02" title="Permanent link">&para;</a></h2>
+<p>在这一步中我们要通过符号执行来确定真实块之间的前后关系，真实块之间的前后关系又分为两类：</p>
+<ol>
+<li>有一个确定的后继块</li>
+<li>有两个后继块，跳转到哪个由某个条件决定</li>
+</ol>
+<p>第一种情况非常好处理，我们从一个真实块A开始符号执行，直到碰到下一个真实块B，那么我们就确定了一对基本块的执行顺序A→B。</p>
+<p>第二种情况我们需要先令该条件为True，然后进行符号执行，得到一个后继真实块的地址；再令条件为False，然后进行符号执行，得到另一个后继真实块的地址。思路比较简单，但代码写起来会稍微有点复杂。</p>
+<p>有一个确定后继块的真实块是比较简单的，这类基本块会在末尾修改switch变量的值，在下一次进入分发器时就能达到另一个真实块：</p>
+<p><img alt="image-20211011090106436" src="../img/image-20211011090106436.png" /></p>
+<p>这类则是具有两个可能后继块的真实块，cmovnz有点类似jnz指令，会在ZF为0时执行mov eax, ecx操作，而ZF为1时不做处理。所有这类真实块都包含cmovnz或cmovz指令，可以通过这一特征判定真实块是具有分支：</p>
+<p><img alt="image-20211011090258992" src="../img/image-20211011090258992.png" /></p>
+<p>第二步的代码如下：</p>
+<div class="highlight"><pre><span></span><code><span class="n">relevant_addrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">relevant_nodes</span><span class="p">]</span>
+<span class="n">relevant_addrs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">retn_nodes</span><span class="p">]</span>
+<span class="n">patch_addrs</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">cmov_types</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">flow</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">relevant_nodes</span><span class="p">:</span>
+    <span class="n">block_addr</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span>
+    <span class="n">has_branch</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">block_addr</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">has_branch</span><span class="p">:</span>
+        <span class="n">symbolic_execute</span><span class="p">(</span><span class="n">block_addr</span><span class="p">,</span> <span class="n">modify_cond</span><span class="o">=</span><span class="n">claripy</span><span class="o">.</span><span class="n">BVV</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">symbolic_execute</span><span class="p">(</span><span class="n">block_addr</span><span class="p">,</span> <span class="n">modify_cond</span><span class="o">=</span><span class="n">claripy</span><span class="o">.</span><span class="n">BVV</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">symbolic_execute</span><span class="p">(</span><span class="n">block_addr</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">relevant_nodes</span><span class="p">:</span>
+    <span class="n">block_addr</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Real successors of block </span><span class="si">%#x</span><span class="s1">: &#39;</span> <span class="o">%</span> <span class="n">block_addr</span><span class="p">,</span> <span class="p">[</span><span class="nb">hex</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">flow</span><span class="p">[</span><span class="n">block_addr</span><span class="p">]])</span>
+</code></pre></div>
+<ul>
+<li>
+<p>relevant_addrs此时包含入口块、真实块以及返回块的地址，当我们从一个真实块出发（不包含返回块）碰到relevant_addrs中的地址时，就还原了一对真实块的前后关系</p>
+</li>
+<li>
+<p>patch_addrs保存真实块中cmov指令的地址，以便第三步进行Patch</p>
+</li>
+<li>cmov_types保存真实块中cmov指令的类型，比如cmovz、cmovnz等</li>
+<li>flow创建了一个默认类型为list的dict，保存真实块的后继块地址</li>
+</ul>
+<p>preprocess对真实块中的call指令进行hook，因为这些call指令对接下来的符号执行完全没有作用；另外根据有无cmov指令判断改真实块是否有分支以及记录cmov指令的地址和类型：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">block_addr</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">block_addr</span><span class="p">)</span>
+    <span class="n">has_branch</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">insn</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">capstone</span><span class="o">.</span><span class="n">insns</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">insn</span><span class="o">.</span><span class="n">mnemonic</span> <span class="o">==</span> <span class="s1">&#39;call&#39;</span><span class="p">:</span>
+            <span class="n">proj</span><span class="o">.</span><span class="n">hook</span><span class="p">(</span><span class="n">insn</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="n">hook</span><span class="o">=</span><span class="k">lambda</span> <span class="n">state</span> <span class="p">:</span> <span class="n">proj</span><span class="o">.</span><span class="n">unhook</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">addr</span><span class="p">),</span> <span class="n">length</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hook [</span><span class="si">%s</span><span class="se">\t</span><span class="si">%s</span><span class="s1">] at </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">insn</span><span class="o">.</span><span class="n">mnemonic</span><span class="p">,</span> <span class="n">insn</span><span class="o">.</span><span class="n">op_str</span><span class="p">,</span> <span class="n">insn</span><span class="o">.</span><span class="n">address</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">insn</span><span class="o">.</span><span class="n">mnemonic</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;cmov&#39;</span><span class="p">):</span>
+            <span class="n">has_branch</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">patch_addrs</span><span class="p">[</span><span class="n">block_addr</span><span class="p">]</span> <span class="o">=</span> <span class="n">insn</span><span class="o">.</span><span class="n">address</span>
+            <span class="n">cmov_types</span><span class="p">[</span><span class="n">block_addr</span><span class="p">]</span> <span class="o">=</span> <span class="n">insn</span><span class="o">.</span><span class="n">mnemonic</span>
+    <span class="k">return</span> <span class="n">has_branch</span>
+</code></pre></div>
+<p>第一种情况：当前真实块没有分支，则symbolic_execute从一个真实块开始符号执行，直到碰到下一个真实块，往flow中添加下一个真实块的地址：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">symbolic_execute</span><span class="p">(</span><span class="n">block_addr</span><span class="p">,</span> <span class="n">modify_cond</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">simgr</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">simgr</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+    <span class="n">simgr</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">simgr</span><span class="o">.</span><span class="n">active</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">active</span> <span class="ow">in</span> <span class="n">simgr</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">active</span><span class="o">.</span><span class="n">addr</span> <span class="ow">in</span> <span class="n">relevant_addrs</span><span class="p">:</span>
+                <span class="n">flow</span><span class="p">[</span><span class="n">block_addr</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">active</span><span class="o">.</span><span class="n">addr</span><span class="p">)</span>
+                <span class="k">return</span>
+        <span class="n">simgr</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error at block </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">block_addr</span><span class="p">)</span>
+</code></pre></div>
+<p>第二种情况：当前真实块有分支，那么我们需要令分支的条件分别为True和False符号执行两次，分别得到两个后继真实块的地址：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">symbolic_execute</span><span class="p">(</span><span class="n">block_addr</span><span class="p">,</span> <span class="n">modify_cond</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">modify_ITE_cond</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+        <span class="n">expressions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">scratch</span><span class="o">.</span><span class="n">irsb</span><span class="o">.</span><span class="n">statements</span><span class="p">[</span><span class="n">state</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">statement</span><span class="p">]</span><span class="o">.</span><span class="n">expressions</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">expressions</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expressions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pyvex</span><span class="o">.</span><span class="n">expr</span><span class="o">.</span><span class="n">ITE</span><span class="p">):</span>
+            <span class="n">state</span><span class="o">.</span><span class="n">scratch</span><span class="o">.</span><span class="n">temps</span><span class="p">[</span><span class="n">expressions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cond</span><span class="o">.</span><span class="n">tmp</span><span class="p">]</span> <span class="o">=</span> <span class="n">modify_cond</span>
+            <span class="n">state</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">_breakpoints</span><span class="p">[</span><span class="s1">&#39;statement&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">state</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">blank_state</span><span class="p">(</span><span class="n">addr</span><span class="o">=</span><span class="n">block_addr</span><span class="p">,</span> <span class="n">remove_options</span><span class="o">=</span><span class="p">{</span>
+                                        <span class="n">angr</span><span class="o">.</span><span class="n">sim_options</span><span class="o">.</span><span class="n">LAZY_SOLVES</span><span class="p">})</span>
+    <span class="k">if</span> <span class="n">modify_cond</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">state</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">b</span><span class="p">(</span><span class="s1">&#39;statement&#39;</span><span class="p">,</span><span class="n">when</span><span class="o">=</span><span class="n">BP_BEFORE</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">modify_ITE_cond</span><span class="p">)</span>
+    <span class="n">simgr</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">simgr</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+    <span class="n">simgr</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">simgr</span><span class="o">.</span><span class="n">active</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">active</span> <span class="ow">in</span> <span class="n">simgr</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">active</span><span class="o">.</span><span class="n">addr</span> <span class="ow">in</span> <span class="n">relevant_addrs</span><span class="p">:</span>
+                <span class="n">flow</span><span class="p">[</span><span class="n">block_addr</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">active</span><span class="o">.</span><span class="n">addr</span><span class="p">)</span>
+                <span class="k">return</span>
+        <span class="n">simgr</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error at block </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">block_addr</span><span class="p">)</span>
+</code></pre></div>
+<p>这里我们通过statement断点监控了VEX IR中的ITE指令，通过修改ITE指令中的临时变量改变了符号执行的状态，ITE指令类似于C语言中的三元运算符：</p>
+<p><img alt="image-20211011121751318" src="../img/image-20211011121751318.png" /></p>
+<p>写个简单的程序打印一下VEX IR，对比ITE指令与原指令的对应关系：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">angr</span>
+
+<span class="n">proj</span> <span class="o">=</span> <span class="n">angr</span><span class="o">.</span><span class="n">Project</span><span class="p">(</span><span class="s1">&#39;TestProgram_fla&#39;</span><span class="p">)</span>
+<span class="n">block</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="mh">0x4008A8</span><span class="p">)</span>
+<span class="n">block</span><span class="o">.</span><span class="n">vex</span><span class="o">.</span><span class="n">pp</span><span class="p">()</span>
+</code></pre></div>
+<p>输出：</p>
+<div class="highlight"><pre><span></span><code>   00 | ------ IMark(0x4008a8, 5, 0) ------
+...
+   16 | ------ IMark(0x4008b8, 3, 0) ------
+   17 | t34 = And64(t13,0x00000000000000ff)
+   18 | t33 = CmpNE64(t34,0x0000000000000000)
+   19 | t32 = 1Uto64(t33)
+   20 | t25 = t32
+   21 | t35 = 64to1(t25)
+   22 | t20 = t35
+   23 | t36 = ITE(t20,0x43b8ab1b,0xa71da95e)
+   24 | t19 = t36
+   25 | t37 = 32Uto64(t19)
+   26 | t18 = t37
+   27 | PUT(rax) = t18
+   28 | PUT(rip) = 0x00000000004008bb
+   29 | ------ IMark(0x4008bb, 3, 0) ------
+...
+}
+</code></pre></div>
+<p>可以看到VEX IR用包括ITE在内的多条指令表示了cmovnz这一条汇编指令：</p>
+<p><img alt="image-20211011122336177" src="../img/image-20211011122336177.png" /></p>
+<p>以<code>t36 = ITE(t20,0x43b8ab1b,0xa71da95e)</code>这条指令为例，如果t20为True，那么t36就等于0x43b8ab1b，如果t20为False，那么t36就等于0xa71da95e。在symbolic_execute函数中，我们通过statement断点完成了这一操作：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">modify_ITE_cond</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+    <span class="n">expressions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">scratch</span><span class="o">.</span><span class="n">irsb</span><span class="o">.</span><span class="n">statements</span><span class="p">[</span><span class="n">state</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">statement</span><span class="p">]</span><span class="o">.</span><span class="n">expressions</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">expressions</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expressions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pyvex</span><span class="o">.</span><span class="n">expr</span><span class="o">.</span><span class="n">ITE</span><span class="p">):</span>
+        <span class="n">state</span><span class="o">.</span><span class="n">scratch</span><span class="o">.</span><span class="n">temps</span><span class="p">[</span><span class="n">expressions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cond</span><span class="o">.</span><span class="n">tmp</span><span class="p">]</span> <span class="o">=</span> <span class="n">modify_cond</span>
+        <span class="n">state</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">_breakpoints</span><span class="p">[</span><span class="s1">&#39;statement&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">if</span> <span class="n">modify_cond</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">state</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">b</span><span class="p">(</span><span class="s1">&#39;statement&#39;</span><span class="p">,</span><span class="n">when</span><span class="o">=</span><span class="n">BP_BEFORE</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">modify_ITE_cond</span><span class="p">)</span>
+</code></pre></div>
+<p>这样便成功还原了真实块原先的前后关系，或者说重建了控制流。</p>
+<h2 id="0x03-patch">0x03. Patch程序<a class="headerlink" href="#0x03-patch" title="Permanent link">&para;</a></h2>
+<p>最后一步我们要第二步中重建的控制流Patch程序，并输出恢复后的可执行文件。</p>
+<p>首先是将子分发器全部Nop掉，因为这些基本块在我们重建之后的控制流中不起任何作用：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">fill_nops</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">addr</span> <span class="o">-</span> <span class="n">base_addr</span>
+    <span class="n">content</span><span class="p">[</span><span class="n">offset</span><span class="p">:</span><span class="n">offset</span> <span class="o">+</span> <span class="n">size</span><span class="p">]</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x90</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="n">size</span>
+
+<span class="n">base_addr</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">main_object</span><span class="o">.</span><span class="n">mapped_base</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">sub_dispatcher_nodes</span><span class="p">:</span>
+    <span class="n">fill_nops</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fill nops from </span><span class="si">%#x</span><span class="s1"> to </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+</code></pre></div>
+<p>对于没有分支的真实块，直接让他跳转到对应的后继真实块，注意入口块要做一个特殊处理，因为入口块的最后一条指令并不是jmp指令，所以要从主分发块的头部进行Patch：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">fill_jmp</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">):</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">src</span> <span class="o">-</span> <span class="n">base_addr</span>
+    <span class="k">if</span> <span class="n">dest</span> <span class="o">!=</span> <span class="n">src</span> <span class="o">+</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="n">content</span><span class="p">[</span><span class="n">offset</span><span class="p">]</span> <span class="o">=</span> <span class="mh">0xE9</span>
+        <span class="n">content</span><span class="p">[</span><span class="n">offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">offset</span> <span class="o">+</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">dest</span> <span class="o">-</span> <span class="n">src</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;little&#39;</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fill_nops</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">relevant_nodes</span><span class="p">:</span>
+    <span class="n">childs</span> <span class="o">=</span> <span class="n">flow</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">childs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">patch_addr</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">5</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="o">==</span> <span class="n">prologue_node</span><span class="o">.</span><span class="n">addr</span><span class="p">:</span>
+            <span class="n">patch_addr</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">size</span>
+        <span class="n">fill_jmp</span><span class="p">(</span><span class="n">patch_addr</span><span class="p">,</span> <span class="n">childs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Patch jmp </span><span class="si">%#x</span><span class="s1"> at </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">childs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">patch_addr</span><span class="p">))</span>
+</code></pre></div>
+<p><img alt="image-20211011123427505" src="../img/image-20211011123427505.png" /></p>
+<p>对于有分支的基本块，则根据cmov指令的类型进行Patch，至于为什么跳转指令的后缀要跟cmov指令的后缀保持一致读者开通脑筋想一想很容易就能得出答案，这是一个逻辑问题：</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_jx_opcode</span><span class="p">(</span><span class="n">jx_type</span><span class="p">):</span>
+    <span class="n">ks</span> <span class="o">=</span> <span class="n">Ks</span><span class="p">(</span><span class="n">KS_ARCH_X86</span><span class="p">,</span> <span class="n">KS_MODE_32</span><span class="p">)</span>
+    <span class="n">code</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="n">ks</span><span class="o">.</span><span class="n">asm</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">jx_type</span><span class="si">}</span><span class="s1"> 0xFFFFFFFF&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">byteorder</span><span class="p">),</span> <span class="n">code</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]))</span>
+
+<span class="k">def</span> <span class="nf">fill_jx</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">cmov_type</span><span class="p">):</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">src</span> <span class="o">-</span> <span class="n">base_addr</span>
+    <span class="n">content</span><span class="p">[</span><span class="n">offset</span><span class="p">:</span><span class="n">offset</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_jx_opcode</span><span class="p">(</span><span class="n">cmov_type</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;cmov&#39;</span><span class="p">,</span> <span class="s1">&#39;j&#39;</span><span class="p">))</span>
+    <span class="n">content</span><span class="p">[</span><span class="n">offset</span> <span class="o">+</span> <span class="mi">2</span><span class="p">:</span><span class="n">offset</span> <span class="o">+</span> <span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">dest</span> <span class="o">-</span> <span class="n">src</span> <span class="o">-</span> <span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;little&#39;</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">relevant_nodes</span><span class="p">:</span>
+    <span class="n">childs</span> <span class="o">=</span> <span class="n">flow</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">childs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">patch_addr</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">5</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="o">==</span> <span class="n">prologue_node</span><span class="o">.</span><span class="n">addr</span><span class="p">:</span>
+            <span class="n">patch_addr</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">fill_jmp</span><span class="p">(</span><span class="n">patch_addr</span><span class="p">,</span> <span class="n">childs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Patch jmp </span><span class="si">%#x</span><span class="s1"> at </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">childs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">patch_addr</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">childs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">patch_addr</span> <span class="o">=</span> <span class="n">patch_addrs</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span><span class="p">]</span>
+            <span class="n">cmov_type</span> <span class="o">=</span> <span class="n">cmov_types</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span><span class="p">]</span>
+            <span class="n">fill_nops</span><span class="p">(</span><span class="n">patch_addr</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="n">patch_addr</span><span class="p">)</span>
+            <span class="n">fill_jx</span><span class="p">(</span><span class="n">patch_addr</span><span class="p">,</span> <span class="n">childs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cmov_type</span><span class="p">)</span>
+            <span class="n">fill_jmp</span><span class="p">(</span><span class="n">patch_addr</span> <span class="o">+</span> <span class="mi">6</span><span class="p">,</span> <span class="n">childs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Patch jz </span><span class="si">%#x</span><span class="s1"> at </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">childs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">patch_addr</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Patch jmp </span><span class="si">%#x</span><span class="s1"> at </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">childs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">patch_addr</span> <span class="o">+</span> <span class="mi">6</span><span class="p">))</span>
+</code></pre></div>
+<p>最后再写入到新的文件：</p>
+<div class="highlight"><pre><span></span><code><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">out</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="0x04">0x04. 检验反混淆效果<a class="headerlink" href="#0x04" title="Permanent link">&para;</a></h2>
+<p>最后用之前的实例程序来检验脚本的反混淆效果，对main函数和encrypt函数进行反混淆：</p>
+<div class="highlight"><pre><span></span><code>python deflat.py -f samples/TestProgram_fla -s 4009A0 -o samples/dump
+python deflat.py -f samples/dump -s <span class="m">400680</span> -o samples/dump
+</code></pre></div>
+<p>恢复之后的main函数和encrypt函数的控制流：</p>
+<p><img alt="image-20211011123946266" src="../img/image-20211011123946266.png" /></p>
+<p><img alt="image-20211011123957326" src="../img/image-20211011123957326.png" /></p>
+<p>恢复之后的伪代码，可以看到原程序的逻辑已经基本恢复正常了：</p>
+<p><img alt="image-20211011124029326" src="../img/image-20211011124029326.png" /></p>
+<p><img alt="image-20211011124044694" src="../img/image-20211011124044694.png" /></p>
+<p>实际运行也没有错误：</p>
+<p><img alt="image-20211011124143958" src="../img/image-20211011124143958.png" /></p>
+<h2 id="0x05">0x05. 完整代码<a class="headerlink" href="#0x05" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">angr</span>
+<span class="kn">from</span> <span class="nn">angr.state_plugins.inspect</span> <span class="kn">import</span> <span class="n">BP_BEFORE</span>
+<span class="kn">from</span> <span class="nn">angrmanagement.utils.graph</span> <span class="kn">import</span> <span class="n">to_supergraph</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">claripy</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">pyvex</span>
+<span class="kn">from</span> <span class="nn">keystone</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;angr.storage.memory_mixins.default_filler_mixin&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_cfg</span><span class="p">():</span>
+    <span class="n">cfg</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">analyses</span><span class="o">.</span><span class="n">CFGFast</span><span class="p">(</span><span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force_complete_scan</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">function_cfg</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">functions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">start</span><span class="p">)</span><span class="o">.</span><span class="n">transition_graph</span>
+    <span class="n">super_cfg</span> <span class="o">=</span> <span class="n">to_supergraph</span><span class="p">(</span><span class="n">function_cfg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">super_cfg</span>
+
+<span class="k">def</span> <span class="nf">analyse_blocks</span><span class="p">():</span>
+    <span class="n">retn_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">in_degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">prologue_node</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="k">elif</span> <span class="n">cfg</span><span class="o">.</span><span class="n">out_degree</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">retn_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="n">main_dispatcher_node</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">successors</span><span class="p">(</span><span class="n">prologue_node</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">main_dispatcher_node</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="o">!=</span> <span class="n">prologue_node</span><span class="o">.</span><span class="n">addr</span><span class="p">:</span>
+            <span class="n">predispatcher_node</span> <span class="o">=</span> <span class="n">node</span>
+            <span class="k">break</span>
+    <span class="n">relevant_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">prologue_node</span><span class="p">]</span>
+    <span class="n">sub_dispatcher_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">predecessors</span><span class="p">(</span><span class="n">predispatcher_node</span><span class="p">):</span>
+            <span class="n">relevant_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">node</span> <span class="o">!=</span> <span class="n">prologue_node</span> <span class="ow">and</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">retn_nodes</span><span class="p">:</span>
+            <span class="n">sub_dispatcher_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">prologue_node</span><span class="p">,</span> <span class="n">main_dispatcher_node</span><span class="p">,</span> <span class="n">sub_dispatcher_nodes</span><span class="p">,</span> <span class="n">retn_nodes</span><span class="p">,</span> <span class="n">relevant_nodes</span><span class="p">,</span> <span class="n">predispatcher_node</span>
+
+<span class="k">def</span> <span class="nf">preprocess</span><span class="p">(</span><span class="n">block_addr</span><span class="p">):</span>
+    <span class="n">block</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="n">block_addr</span><span class="p">)</span>
+    <span class="n">has_branch</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">insn</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">capstone</span><span class="o">.</span><span class="n">insns</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">insn</span><span class="o">.</span><span class="n">mnemonic</span> <span class="o">==</span> <span class="s1">&#39;call&#39;</span><span class="p">:</span>
+            <span class="n">proj</span><span class="o">.</span><span class="n">hook</span><span class="p">(</span><span class="n">insn</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="n">hook</span><span class="o">=</span><span class="k">lambda</span> <span class="n">state</span> <span class="p">:</span> <span class="n">proj</span><span class="o">.</span><span class="n">unhook</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">addr</span><span class="p">),</span> <span class="n">length</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hook [</span><span class="si">%s</span><span class="se">\t</span><span class="si">%s</span><span class="s1">] at </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">insn</span><span class="o">.</span><span class="n">mnemonic</span><span class="p">,</span> <span class="n">insn</span><span class="o">.</span><span class="n">op_str</span><span class="p">,</span> <span class="n">insn</span><span class="o">.</span><span class="n">address</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">insn</span><span class="o">.</span><span class="n">mnemonic</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;cmov&#39;</span><span class="p">):</span>
+            <span class="n">has_branch</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">patch_addrs</span><span class="p">[</span><span class="n">block_addr</span><span class="p">]</span> <span class="o">=</span> <span class="n">insn</span><span class="o">.</span><span class="n">address</span>
+            <span class="n">cmov_types</span><span class="p">[</span><span class="n">block_addr</span><span class="p">]</span> <span class="o">=</span> <span class="n">insn</span><span class="o">.</span><span class="n">mnemonic</span>
+    <span class="k">return</span> <span class="n">has_branch</span>
+
+<span class="k">def</span> <span class="nf">symbolic_execute</span><span class="p">(</span><span class="n">block_addr</span><span class="p">,</span> <span class="n">modify_cond</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">modify_ITE_cond</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+        <span class="n">expressions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">scratch</span><span class="o">.</span><span class="n">irsb</span><span class="o">.</span><span class="n">statements</span><span class="p">[</span><span class="n">state</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">statement</span><span class="p">]</span><span class="o">.</span><span class="n">expressions</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">expressions</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">expressions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pyvex</span><span class="o">.</span><span class="n">expr</span><span class="o">.</span><span class="n">ITE</span><span class="p">):</span>
+            <span class="n">state</span><span class="o">.</span><span class="n">scratch</span><span class="o">.</span><span class="n">temps</span><span class="p">[</span><span class="n">expressions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cond</span><span class="o">.</span><span class="n">tmp</span><span class="p">]</span> <span class="o">=</span> <span class="n">modify_cond</span>
+            <span class="n">state</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">_breakpoints</span><span class="p">[</span><span class="s1">&#39;statement&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">state</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">blank_state</span><span class="p">(</span><span class="n">addr</span><span class="o">=</span><span class="n">block_addr</span><span class="p">,</span> <span class="n">remove_options</span><span class="o">=</span><span class="p">{</span>
+                                        <span class="n">angr</span><span class="o">.</span><span class="n">sim_options</span><span class="o">.</span><span class="n">LAZY_SOLVES</span><span class="p">})</span>
+    <span class="k">if</span> <span class="n">modify_cond</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">state</span><span class="o">.</span><span class="n">inspect</span><span class="o">.</span><span class="n">b</span><span class="p">(</span><span class="s1">&#39;statement&#39;</span><span class="p">,</span><span class="n">when</span><span class="o">=</span><span class="n">BP_BEFORE</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="n">modify_ITE_cond</span><span class="p">)</span>
+    <span class="n">simgr</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">factory</span><span class="o">.</span><span class="n">simgr</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+    <span class="n">simgr</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">simgr</span><span class="o">.</span><span class="n">active</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">active</span> <span class="ow">in</span> <span class="n">simgr</span><span class="o">.</span><span class="n">active</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">active</span><span class="o">.</span><span class="n">addr</span> <span class="ow">in</span> <span class="n">relevant_addrs</span><span class="p">:</span>
+                <span class="n">flow</span><span class="p">[</span><span class="n">block_addr</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">active</span><span class="o">.</span><span class="n">addr</span><span class="p">)</span>
+                <span class="k">return</span>
+        <span class="n">simgr</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error at block </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">block_addr</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">fill_nops</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">addr</span> <span class="o">-</span> <span class="n">base_addr</span>
+    <span class="n">content</span><span class="p">[</span><span class="n">offset</span><span class="p">:</span><span class="n">offset</span> <span class="o">+</span> <span class="n">size</span><span class="p">]</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x90</span><span class="s1">&#39;</span> <span class="o">*</span> <span class="n">size</span>
+
+<span class="k">def</span> <span class="nf">fill_jmp</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">):</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">src</span> <span class="o">-</span> <span class="n">base_addr</span>
+    <span class="k">if</span> <span class="n">dest</span> <span class="o">!=</span> <span class="n">src</span> <span class="o">+</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="n">content</span><span class="p">[</span><span class="n">offset</span><span class="p">]</span> <span class="o">=</span> <span class="mh">0xE9</span>
+        <span class="n">content</span><span class="p">[</span><span class="n">offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">offset</span> <span class="o">+</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">dest</span> <span class="o">-</span> <span class="n">src</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;little&#39;</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fill_nops</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_jx_opcode</span><span class="p">(</span><span class="n">jx_type</span><span class="p">):</span>
+    <span class="n">ks</span> <span class="o">=</span> <span class="n">Ks</span><span class="p">(</span><span class="n">KS_ARCH_X86</span><span class="p">,</span> <span class="n">KS_MODE_32</span><span class="p">)</span>
+    <span class="n">code</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="n">ks</span><span class="o">.</span><span class="n">asm</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">jx_type</span><span class="si">}</span><span class="s1"> 0xFFFFFFFF&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">byteorder</span><span class="p">),</span> <span class="n">code</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]))</span>
+
+<span class="k">def</span> <span class="nf">fill_jx</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">cmov_type</span><span class="p">):</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">src</span> <span class="o">-</span> <span class="n">base_addr</span>
+    <span class="n">content</span><span class="p">[</span><span class="n">offset</span><span class="p">:</span><span class="n">offset</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_jx_opcode</span><span class="p">(</span><span class="n">cmov_type</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;cmov&#39;</span><span class="p">,</span> <span class="s1">&#39;j&#39;</span><span class="p">))</span>
+    <span class="n">content</span><span class="p">[</span><span class="n">offset</span> <span class="o">+</span> <span class="mi">2</span><span class="p">:</span><span class="n">offset</span> <span class="o">+</span> <span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">dest</span> <span class="o">-</span> <span class="n">src</span> <span class="o">-</span> <span class="mi">6</span><span class="p">)</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;little&#39;</span><span class="p">,</span> <span class="n">signed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39;Deobfuscate OLLVM Control Flow Flatten&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;--file&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;binary to deobfuscate&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="s1">&#39;--start&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;start address of the deobfuscation&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--out&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;output file path&#39;</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">file</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">args</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">args</span><span class="o">.</span><span class="n">out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">file</span>            <span class="c1"># 文件名</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>     <span class="c1"># 起始地址</span>
+    <span class="c1"># load_options={&#39;auto_load_libs&#39;: False}</span>
+    <span class="c1"># 避免生成cfg时解析到共享库的函数</span>
+    <span class="n">proj</span> <span class="o">=</span> <span class="n">angr</span><span class="o">.</span><span class="n">Project</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">load_options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;auto_load_libs&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">})</span>
+
+    <span class="c1"># 第一步：获取函数CFG（类似于IDA的CFG）</span>
+    <span class="c1"># 分析CFG得到入口块（序言）、主分发器、返回块、真实块、预分发块</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************** Step-1 Static Analysis(1/3) ****************&#39;</span><span class="p">)</span>
+    <span class="n">cfg</span> <span class="o">=</span> <span class="n">get_cfg</span><span class="p">()</span>
+    <span class="n">prologue_node</span><span class="p">,</span> <span class="n">main_dispatcher_node</span><span class="p">,</span> <span class="n">sub_dispatcher_nodes</span><span class="p">,</span> <span class="n">retn_nodes</span><span class="p">,</span> <span class="n">relevant_nodes</span><span class="p">,</span> <span class="n">predispatcher_node</span> <span class="o">=</span> <span class="n">analyse_blocks</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Prologue block at </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">prologue_node</span><span class="o">.</span><span class="n">addr</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Main dispatcher block at </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">main_dispatcher_node</span><span class="o">.</span><span class="n">addr</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sub dispatcher blocks at &#39;</span><span class="p">,</span> <span class="p">[</span><span class="nb">hex</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span><span class="p">)</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">sub_dispatcher_nodes</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Return blocks at &#39;</span><span class="p">,</span> <span class="p">[</span><span class="nb">hex</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span><span class="p">)</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">retn_nodes</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Relevant blocks at &#39;</span><span class="p">,</span> <span class="p">[</span><span class="nb">hex</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span><span class="p">)</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">relevant_nodes</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Predispatcher blocks at </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">predispatcher_node</span><span class="o">.</span><span class="n">addr</span><span class="p">)</span>
+
+    <span class="c1"># 第二步：恢复真实块前后关系，重建控制流</span>
+    <span class="c1"># 从一个真实块开始符号执行</span>
+    <span class="c1"># 如果没有分支，计算出下一个到达的真实块</span>
+    <span class="c1"># 如果有分支，条件为True时到达的真实块和条件为False时到达的真实块</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************** Step-2 Recover Control Flow(2/3) ****************&#39;</span><span class="p">)</span>
+    <span class="n">relevant_addrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">relevant_nodes</span><span class="p">]</span>
+    <span class="n">relevant_addrs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">retn_nodes</span><span class="p">]</span>
+    <span class="n">patch_addrs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">cmov_types</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">relevant_nodes</span><span class="p">:</span>
+        <span class="n">block_addr</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span>
+        <span class="n">has_branch</span> <span class="o">=</span> <span class="n">preprocess</span><span class="p">(</span><span class="n">block_addr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">has_branch</span><span class="p">:</span>
+            <span class="n">symbolic_execute</span><span class="p">(</span><span class="n">block_addr</span><span class="p">,</span> <span class="n">modify_cond</span><span class="o">=</span><span class="n">claripy</span><span class="o">.</span><span class="n">BVV</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">symbolic_execute</span><span class="p">(</span><span class="n">block_addr</span><span class="p">,</span> <span class="n">modify_cond</span><span class="o">=</span><span class="n">claripy</span><span class="o">.</span><span class="n">BVV</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">symbolic_execute</span><span class="p">(</span><span class="n">block_addr</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">relevant_nodes</span><span class="p">:</span>
+        <span class="n">block_addr</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Real successors of block </span><span class="si">%#x</span><span class="s1">: &#39;</span> <span class="o">%</span> <span class="n">block_addr</span><span class="p">,</span> <span class="p">[</span><span class="nb">hex</span><span class="p">(</span><span class="n">child</span><span class="p">)</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">flow</span><span class="p">[</span><span class="n">block_addr</span><span class="p">]])</span>
+
+    <span class="c1"># 第三步：Patch程序，输出恢复后的可执行文件</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;**************** Step-3 Patch Binary(3/3) ****************&#39;</span><span class="p">)</span>
+    <span class="n">base_addr</span> <span class="o">=</span> <span class="n">proj</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">main_object</span><span class="o">.</span><span class="n">mapped_base</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">sub_dispatcher_nodes</span><span class="p">:</span>
+        <span class="n">fill_nops</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fill nops from </span><span class="si">%#x</span><span class="s1"> to </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">relevant_nodes</span><span class="p">:</span>
+        <span class="n">childs</span> <span class="o">=</span> <span class="n">flow</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">childs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">patch_addr</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">5</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="o">==</span> <span class="n">prologue_node</span><span class="o">.</span><span class="n">addr</span><span class="p">:</span>
+                <span class="n">patch_addr</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">fill_jmp</span><span class="p">(</span><span class="n">patch_addr</span><span class="p">,</span> <span class="n">childs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Patch jmp </span><span class="si">%#x</span><span class="s1"> at </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">childs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">patch_addr</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">childs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">patch_addr</span> <span class="o">=</span> <span class="n">patch_addrs</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span><span class="p">]</span>
+            <span class="n">cmov_type</span> <span class="o">=</span> <span class="n">cmov_types</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">addr</span><span class="p">]</span>
+            <span class="n">fill_nops</span><span class="p">(</span><span class="n">patch_addr</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">addr</span> <span class="o">+</span> <span class="n">node</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="n">patch_addr</span><span class="p">)</span>
+            <span class="n">fill_jx</span><span class="p">(</span><span class="n">patch_addr</span><span class="p">,</span> <span class="n">childs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cmov_type</span><span class="p">)</span>
+            <span class="n">fill_jmp</span><span class="p">(</span><span class="n">patch_addr</span> <span class="o">+</span> <span class="mi">6</span><span class="p">,</span> <span class="n">childs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Patch jz </span><span class="si">%#x</span><span class="s1"> at </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">childs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">patch_addr</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Patch jmp </span><span class="si">%#x</span><span class="s1"> at </span><span class="si">%#x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">childs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">patch_addr</span> <span class="o">+</span> <span class="mi">6</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error&#39;</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">out</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</code></pre></div>
+                
+              
+              
+                
+
+
+  <h2 id="__comments">评论</h2>
+  <div id="disqus_thread"></div>
+  <script>var script,disqus_config=function(){this.page.url="None",this.page.identifier="None"};"undefined"==typeof DISQUS?((script=document.createElement("script")).async=!0,script.src="https://scu-ctf.disqus.com/embed.js",script.setAttribute("data-timestamp",Date.now()),document.body.appendChild(script)):DISQUS.reset({reload:!0,config:disqus_config})</script>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.1e84347e.min.js"></script>
+      
+        <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+      
+        <script src="../../_static/js/extra.js"></script>
+      
+        <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>
