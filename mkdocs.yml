@@ -26,9 +26,9 @@ nav:
     - angr_veritesting: angr/06_angr_veritesting.md
     - angr_library: angr/07_angr_library.md
     - angr_overflow: angr/08_angr_overflow.md
-    - VEX IR: 09_VEX IR.md
-    - 利用angr符号执行去除控制流平坦化: 10_利用angr符号执行去除控制流平坦化.md
-    - 利用angr符号执行梭哈VM类CTF赛题: 11_利用angr符号执行梭哈VM类CTF赛题.md
+    - VEX IR: angr/09_VEX IR.md
+    - 利用angr符号执行去除控制流平坦化: angr/10_利用angr符号执行去除控制流平坦化.md
+    - 利用angr符号执行梭哈VM类CTF赛题: angr/11_利用angr符号执行梭哈VM类CTF赛题.md
   - capstone:
     - Capstone: capstone/00_Capstone.md
 
