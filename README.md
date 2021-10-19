@@ -1,6 +1,6 @@
 # 0x401RevTrain-Tools
 
-[网页版](https://bluesadi.github.io/0x401RevTrain-Tools/)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Markdown版](docs/)
+[网页版](https://bluesadi.github.io/0x401RevTrain-Tools/)&nbsp;&nbsp;&nbsp;&nbsp;[Markdown版](docs/)
 
 ## 为什么
 
