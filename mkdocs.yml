@@ -1,1 +1,3 @@
-site_name: My Docs
+site_name: 0x401RevTrain-Tools
+nav:
+- Home: index.md
