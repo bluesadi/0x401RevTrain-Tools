@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>05 angr hooks - My Docs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">My Docs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">0x401RevTrain-Tools</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Angr <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../00_%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86/" class="dropdown-item">00 符号执行原理</a>
+</li>
+                                    
+<li>
+    <a href="../01_angr%E5%85%A5%E9%97%A8/" class="dropdown-item">01 angr入门</a>
+</li>
+                                    
+<li>
+    <a href="../02_angr_explore/" class="dropdown-item">02 angr explore</a>
+</li>
+                                    
+<li>
+    <a href="../03_angr_symbolic/" class="dropdown-item">03 angr symbolic</a>
+</li>
+                                    
+<li>
+    <a href="../04_angr_constraints/" class="dropdown-item">04 angr constraints</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">05 angr hooks</a>
+</li>
+                                    
+<li>
+    <a href="../06_angr_veritesting/" class="dropdown-item">06 angr veritesting</a>
+</li>
+                                    
+<li>
+    <a href="../07_angr_library/" class="dropdown-item">07 angr library</a>
+</li>
+                                    
+<li>
+    <a href="../08_angr_overflow/" class="dropdown-item">08 angr overflow</a>
+</li>
+                                    
+<li>
+    <a href="../09_VEX%20IR/" class="dropdown-item">09 VEX IR</a>
+</li>
+                                    
+<li>
+    <a href="../10_%E5%88%A9%E7%94%A8angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E5%8E%BB%E9%99%A4%E6%8E%A7%E5%88%B6%E6%B5%81%E5%B9%B3%E5%9D%A6%E5%8C%96/" class="dropdown-item">10 利用angr符号执行去除控制流平坦化</a>
+</li>
+                                    
+<li>
+    <a href="../11_%E5%88%A9%E7%94%A8angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E6%A2%AD%E5%93%88VM%E7%B1%BBCTF%E8%B5%9B%E9%A2%98/" class="dropdown-item">11 利用angr符号执行梭哈VM类CTF赛题</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Capstone <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../capstone/00_Capstone/" class="dropdown-item">00 Capstone</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../04_angr_constraints/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../06_angr_veritesting/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="2"><a href="#09_angr_hooks" class="nav-link">09_angr_hooks</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#10_angr_simprocedures" class="nav-link">10_angr_simprocedures</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#11_angr_sim_scanf" class="nav-link">11_angr_sim_scanf</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<p>这一节我们来学习避免路径爆炸的另一种方法——hook。对逆向已经比较熟悉的读者应该能很快理解hook的意思。hook也就是钩子的意思，简单来说，hook就是将一段代码或一个函数“钩住”，替换为我们自己的代码，类似“偷梁换柱”。如果现在还不理解hook的含义也没关系，我们马上通过一些实例学习。</p>
+<h2 id="09_angr_hooks">09_angr_hooks</h2>
+<p>这一题的程序流程与上题类似，也是有一个会引起路径爆炸的比较函数。与上题不同的是，这题的比较函数不在整个加密流程的最后，所以我们不能再采用上题手动添加约束并求解的方法：</p>
+<p><img alt="image-20211006003819217" src="../img/image-20211006003819217.png" /></p>
+<p>怎么办呢？既然check_equals函数本身的流程非常简单，那么我们就可以用hook技术将check_equals函数替换为一个<strong>等效的并且不会导致路径爆炸的函数</strong>，然后再进行符号执行：</p>
+<pre><code class="language-python">@proj.hook(addr=0x80486B3, length=5)  # check_equals_XYMKBKUHNIQYNQXE
+def my_check_equals(state):
+    buffer_addr = 0x804A054
+    buffer = state.memory.load(buffer_addr, 16)
+    state.regs.eax = claripy.If(buffer == b'XYMKBKUHNIQYNQXE', claripy.BVV(1, 32), claripy.BVV(0, 32))
+</code></pre>
+<p>注意这里的hook是对call指令进行了hook，而不是函数本身，length指的是跳过的字节数，call指令占5个字节，所以length=5：</p>
+<p><img alt="image-20211006010642505" src="../img/image-20211006010642505.png" /></p>
+<p>至于这个语法：</p>
+<pre><code class="language-python">@proj.hook(addr=0x80486B3, length=5)  # check_equals_XYMKBKUHNIQYNQXE
+</code></pre>
+<p>叫做<em>注解</em>，具体的用法请读者去网上搜索，这里不再赘述。这个写法与上述的写法是等价的：</p>
+<pre><code class="language-python">def my_check_equals(state):
+    buffer_addr = 0x804A054
+    buffer = state.memory.load(buffer_addr, 16)
+    state.regs.eax = claripy.If(buffer == b'XYMKBKUHNIQYNQXE', claripy.BVV(1, 32), claripy.BVV(0, 32))
+
+proj.hook(addr=0x80486B3, hook=my_check_equals, length=5)
+</code></pre>
+<p>解决掉这个会导致路径爆炸的函数之后就好办了，直接explore，代码如下：</p>
+<pre><code class="language-python">import angr
+import claripy
+
+proj = angr.Project('../dist/09_angr_hooks')
+
+@proj.hook(addr=0x80486B3, length=5)  # check_equals_XYMKBKUHNIQYNQXE
+def my_check_equals(state):
+    buffer_addr = 0x804A054
+    buffer = state.memory.load(buffer_addr, 16)
+    state.regs.eax = claripy.If(buffer == b'XYMKBKUHNIQYNQXE', claripy.BVV(1, 32), claripy.BVV(0, 32))
+
+state = proj.factory.entry_state()
+simgr = proj.factory.simgr(state)
+simgr.explore(
+    find=lambda state : b'Good Job.' in state.posix.dumps(1),
+    avoid=lambda state: b'Try again.' in state.posix.dumps(1)
+)
+print(simgr.found[0].posix.dumps(0))
+</code></pre>
+<p>输出：</p>
+<pre><code class="language-python">b'ZXIDRXEORJOTFFJNWUFAOUBLOGLQCCGK'
+</code></pre>
+<h2 id="10_angr_simprocedures">10_angr_simprocedures</h2>
+<p>还是老套路——重复代码。现在我们没法hook所有掉call指令了，因为call指令实在是太多了！！！：</p>
+<p><img alt="image-20211006012411410" src="../img/image-20211006012411410.png" /></p>
+<p><img alt="image-20211006012512835" src="../img/image-20211006012512835.png" /></p>
+<p>怎么办呢？接下来我们就要引入一种对函数本身进行hook的方法——SimProcedures，定义一个SimProcedures的代码如下：</p>
+<pre><code class="language-python">class MyCheckEquals(angr.SimProcedure):
+
+    def run(self, buffer_addr, length):
+        buffer = self.state.memory.load(buffer_addr, length)
+        return claripy.If(buffer == b'ORSDDWXHZURJRBDH', claripy.BVV(1, 32), claripy.BVV(0, 32))
+</code></pre>
+<p>SimProcedure按字面意思来理解就是“模拟程序”，在这里我们用一个SimProcedure的子类MyCheckEquals模拟了check_equals_ORSDDWXHZURJRBDH函数的功能，SimProcedure中的run函数由子类实现，其接收的参数与C语言中的参数保持一致，返回为对应原函数的返回值。</p>
+<p>定义好了SimProcedure之后，我们需要调用hook_symbol函数对程序中名为check_equals_ORSDDWXHZURJRBDH的函数进行hook：</p>
+<pre><code class="language-python">proj.hook_symbol(symbol_name='check_equals_ORSDDWXHZURJRBDH', simproc=MyCheckEquals())
+</code></pre>
+<p>hook之后angr在符号执行的过程中将不会调用原先的check_equals_ORSDDWXHZURJRBDH函数，而且MyCheckEquals类中的run函数。然后我们就可以用老方法解决这道题了，完整代码：</p>
+<pre><code class="language-python">import angr
+import claripy
+
+class MyCheckEquals(angr.SimProcedure):
+
+    def run(self, buffer_addr, length):
+        buffer = self.state.memory.load(buffer_addr, length)
+        return claripy.If(buffer == b'ORSDDWXHZURJRBDH', claripy.BVV(1, 32), claripy.BVV(0, 32))
+
+proj = angr.Project('../dist/10_angr_simprocedures')
+proj.hook_symbol(symbol_name='check_equals_ORSDDWXHZURJRBDH', simproc=MyCheckEquals())
+state = proj.factory.entry_state()
+simgr = proj.factory.simgr(state)
+simgr.explore(
+    find=lambda state : b'Good Job.' in state.posix.dumps(1),
+    avoid=lambda state: b'Try again.' in state.posix.dumps(1)
+)
+print(simgr.found[0].posix.dumps(0))
+</code></pre>
+<p>输出：</p>
+<pre><code class="language-python">b'MSWKNJNAVTTOZMRY'
+</code></pre>
+<h2 id="11_angr_sim_scanf">11_angr_sim_scanf</h2>
+<p>关于这一题，angr_ctf给的说法是<strong>angr不支持多个参数的scanf</strong>：</p>
+<pre><code class="language-python"># This time, the solution involves simply replacing scanf with our own version,
+# since Angr does not support requesting multiple parameters with scanf.
+</code></pre>
+<p>然而实际上是可以的，可能以前的版本不行，毕竟angr版本迭代还是很快的：</p>
+<pre><code class="language-python">import angr
+
+proj = angr.Project('../dist/11_angr_sim_scanf')
+state = proj.factory.entry_state()
+simgr = proj.factory.simgr(state)
+simgr.explore(
+    find=lambda state : b'Good Job.' in state.posix.dumps(1),
+    avoid=lambda state: b'Try again.' in state.posix.dumps(1)
+)
+print(simgr.found[0].posix.dumps(0))
+</code></pre>
+<p>输出：</p>
+<pre><code class="language-python">b'1448564819 1398294103'
+</code></pre>
+<p>虽然有点小乌龙，但不妨碍我们借此机会了解一下angr中自带的SimProcedures。angr在angr/procedures中定义了很多模拟系统函数的SimProcedures：</p>
+<p><img alt="image-20211006015120048" src="../img/image-20211006015120048.png" /></p>
+<p>这些SimProcedures我们都可以通过angr.SIM_PROCEDURES来获得，用法如下：</p>
+<pre><code class="language-python">proj.hook_symbol(&quot;__isoc99_scanf&quot;, angr.SIM_PROCEDURES['libc']['scanf']())
+</code></pre>
+<p>根据我的猜测，angr会根据导入表自动识别<strong>动态链接</strong>的库函数并用自己实现的SimProcedures进行替换的（之所以说是猜测，是因为我还没看过这部分的源码，不过肯定八九不离十），所以这一步hook完全是多此一举。</p>
+<p>完整代码：</p>
+<pre><code class="language-python">import angr
+
+proj = angr.Project('../dist/11_angr_sim_scanf')
+proj.hook_symbol(&quot;__isoc99_scanf&quot;, angr.SIM_PROCEDURES['libc']['scanf']())  # 多此一举
+state = proj.factory.entry_state()
+simgr = proj.factory.simgr(state)
+simgr.explore(
+    find=lambda state : b'Good Job.' in state.posix.dumps(1),
+    avoid=lambda state: b'Try again.' in state.posix.dumps(1)
+)
+print(simgr.found[0].posix.dumps(0))
+</code></pre>
+<p>输出：</p>
+<pre><code class="language-python">b'1448564819 1398294103'
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

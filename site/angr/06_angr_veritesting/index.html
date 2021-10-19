@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>06 angr veritesting - My Docs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">My Docs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">0x401RevTrain-Tools</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Angr <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../00_%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86/" class="dropdown-item">00 符号执行原理</a>
+</li>
+                                    
+<li>
+    <a href="../01_angr%E5%85%A5%E9%97%A8/" class="dropdown-item">01 angr入门</a>
+</li>
+                                    
+<li>
+    <a href="../02_angr_explore/" class="dropdown-item">02 angr explore</a>
+</li>
+                                    
+<li>
+    <a href="../03_angr_symbolic/" class="dropdown-item">03 angr symbolic</a>
+</li>
+                                    
+<li>
+    <a href="../04_angr_constraints/" class="dropdown-item">04 angr constraints</a>
+</li>
+                                    
+<li>
+    <a href="../05_angr_hooks/" class="dropdown-item">05 angr hooks</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">06 angr veritesting</a>
+</li>
+                                    
+<li>
+    <a href="../07_angr_library/" class="dropdown-item">07 angr library</a>
+</li>
+                                    
+<li>
+    <a href="../08_angr_overflow/" class="dropdown-item">08 angr overflow</a>
+</li>
+                                    
+<li>
+    <a href="../09_VEX%20IR/" class="dropdown-item">09 VEX IR</a>
+</li>
+                                    
+<li>
+    <a href="../10_%E5%88%A9%E7%94%A8angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E5%8E%BB%E9%99%A4%E6%8E%A7%E5%88%B6%E6%B5%81%E5%B9%B3%E5%9D%A6%E5%8C%96/" class="dropdown-item">10 利用angr符号执行去除控制流平坦化</a>
+</li>
+                                    
+<li>
+    <a href="../11_%E5%88%A9%E7%94%A8angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E6%A2%AD%E5%93%88VM%E7%B1%BBCTF%E8%B5%9B%E9%A2%98/" class="dropdown-item">11 利用angr符号执行梭哈VM类CTF赛题</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Capstone <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../capstone/00_Capstone/" class="dropdown-item">00 Capstone</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../05_angr_hooks/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../07_angr_library/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="2"><a href="#12_angr_veritesting" class="nav-link">12_angr_veritesting</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<p>前面两节我们分别学习了应对路径爆炸的两种方法——手动约束和hook，这一节我们来学习有效缓解路径爆炸的第三种方法——Veritesting。</p>
+<p>Veritesting意为路径归并，出自2014年的一篇论文<a href="https://github.com/bluesadi/ReverseTools/tree/main/angr/attachment/veritesting-icse-2014.pdf">Enhancing Symbolic Execution with Veritesting</a>，读者对归并的原理感兴趣的话可以阅读一下。</p>
+<h2 id="12_angr_veritesting">12_angr_veritesting</h2>
+<p>angr中实现了上述论文中提到的Veritesting技术，我们只需要在构建simgr的时候添加一个<code>veritesting=True</code>参数即可，代码如下：</p>
+<pre><code class="language-python">simgr = proj.factory.simgr(state, veritesting=True)
+</code></pre>
+<p>然后我们再来测试一下这一段会导致路径爆炸的代码：</p>
+<p><img alt="image-20211006105830491" src="../img/image-20211006105830491.png" /></p>
+<pre><code class="language-python">import angr
+
+proj = angr.Project('../dist/12_angr_veritesting')
+state = proj.factory.entry_state()
+simgr = proj.factory.simgr(state, veritesting=True)
+simgr.explore(
+    find=lambda state : b'Good Job.' in state.posix.dumps(1),
+    avoid=lambda state: b'Try again.' in state.posix.dumps(1)
+)
+print(simgr.found[0].posix.dumps(0))
+</code></pre>
+<p>跑出来还是要一段时间，但起码不会卡死了。输出：</p>
+<pre><code class="language-python">b'OQSUWYACEGIKMOQSUWYACEGIKMOQSUWY'
+</code></pre>
+<p>这种写法与上面的写法是等价的：</p>
+<pre><code class="language-python">simgr = proj.factory.simgr(state)
+simgr.use_technique(angr.exploration_techniques.Veritesting())
+</code></pre>
+<p>另外根据官方的说法：</p>
+<blockquote>
+<p>Note that it frequenly doesn't play nice with other techniques due to the invasive way it implements static symbolic execution.</p>
+</blockquote>
+<p>Versitesting通常与其他exploration techniques不兼容。</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

