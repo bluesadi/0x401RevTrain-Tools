@@ -31,6 +31,8 @@ nav:
     - 利用angr符号执行梭哈VM类CTF赛题: angr/11_利用angr符号执行梭哈VM类CTF赛题.md
   - capstone:
     - Capstone: capstone/00_Capstone.md
+  - keystone
+    - keystone: keystone/00_Keystone.md
 
 
 # Customization

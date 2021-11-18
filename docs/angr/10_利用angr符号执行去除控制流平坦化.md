@@ -237,11 +237,13 @@ preprocess对真实块中的call指令进行hook，因为这些call指令对接�
 
 ```python
 def preprocess(block_addr):
+    def nop_proc(state):
+        pass
     block = proj.factory.block(block_addr)
     has_branch = False
     for insn in block.capstone.insns:
         if insn.mnemonic == 'call':
-            proj.hook(insn.address, hook=lambda state : proj.unhook(state.addr), length=5)
+            proj.hook(insn.address, hook=nop_proc, length=5)
             print('Hook [%s\t%s] at %#x' % (insn.mnemonic, insn.op_str, insn.address))
         elif insn.mnemonic.startswith('cmov'):
             has_branch = True
@@ -495,11 +497,13 @@ def analyse_blocks():
     return prologue_node, main_dispatcher_node, sub_dispatcher_nodes, retn_nodes, relevant_nodes, predispatcher_node
 
 def preprocess(block_addr):
+    def nop_proc(state):
+        pass
     block = proj.factory.block(block_addr)
     has_branch = False
     for insn in block.capstone.insns:
         if insn.mnemonic == 'call':
-            proj.hook(insn.address, hook=lambda state : proj.unhook(state.addr), length=5)
+            proj.hook(insn.address, hook=nop_proc, length=5)
             print('Hook [%s\t%s] at %#x' % (insn.mnemonic, insn.op_str, insn.address))
         elif insn.mnemonic.startswith('cmov'):
             has_branch = True
