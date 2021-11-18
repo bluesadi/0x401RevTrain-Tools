@@ -32,7 +32,7 @@ nav:
   - capstone:
     - Capstone: capstone/00_Capstone.md
   - keystone:
-    - keystone: keystone/00_Keystone.md
+    - Keystone: keystone/00_Keystone.md
 
 
 # Customization
