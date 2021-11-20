@@ -1,0 +1,979 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>Z3 - 0x401RevTrain-Tools</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a57b2b03.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffffff">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:300,400,400i,700%7CSource+Code+Pro&display=fallback">
+        <style>:root{--md-text-font-family:"Noto Sans";--md-code-font-family:"Source Code Pro"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../_static/css/extra.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="white" data-md-color-accent="red">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#0x00" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="0x401RevTrain-Tools" class="md-header__button md-logo" aria-label="0x401RevTrain-Tools" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            0x401RevTrain-Tools
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Z3
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/bluesadi/0x401RevTrain-Tools/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    0x401RevTrain-Tools
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="0x401RevTrain-Tools" class="md-nav__button md-logo" aria-label="0x401RevTrain-Tools" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    0x401RevTrain-Tools
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/bluesadi/0x401RevTrain-Tools/" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    0x401RevTrain-Tools
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          angr
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="angr" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          angr
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../angr/00_%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E5%8E%9F%E7%90%86/" class="md-nav__link">
+        符号执行原理
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../angr/01_angr%E5%85%A5%E9%97%A8/" class="md-nav__link">
+        angr入门
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../angr/02_angr_explore/" class="md-nav__link">
+        angr_explore
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../angr/03_angr_symbolic/" class="md-nav__link">
+        angr_symbolic
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../angr/04_angr_constraints/" class="md-nav__link">
+        angr_constraints
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../angr/05_angr_hooks/" class="md-nav__link">
+        angr_hooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../angr/06_angr_veritesting/" class="md-nav__link">
+        angr_veritesting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../angr/07_angr_library/" class="md-nav__link">
+        angr_library
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../angr/08_angr_overflow/" class="md-nav__link">
+        angr_overflow
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../angr/09_VEX%20IR/" class="md-nav__link">
+        VEX IR
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../angr/10_%E5%88%A9%E7%94%A8angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E5%8E%BB%E9%99%A4%E6%8E%A7%E5%88%B6%E6%B5%81%E5%B9%B3%E5%9D%A6%E5%8C%96/" class="md-nav__link">
+        利用angr符号执行去除控制流平坦化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../angr/11_%E5%88%A9%E7%94%A8angr%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E6%A2%AD%E5%93%88VM%E7%B1%BBCTF%E8%B5%9B%E9%A2%98/" class="md-nav__link">
+        利用angr符号执行梭哈VM类CTF赛题
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          capstone
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="capstone" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          capstone
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../capstone/00_Capstone/" class="md-nav__link">
+        Capstone
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          keystone
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="keystone" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          keystone
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../keystone/00_Keystone/" class="md-nav__link">
+        Keystone
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          z3
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="z3" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          z3
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Z3
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Z3
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0x00" class="md-nav__link">
+    0x00. 安装
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x01" class="md-nav__link">
+    0x01. 基本用法
+  </a>
+  
+    <nav class="md-nav" aria-label="0x01. 基本用法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    创建变量
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    添加约束
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    检查方程/方程组是否有解
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    约束求解
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x02-1-2021ror" class="md-nav__link">
+    0x02. 例题1-[西湖论剑2021]ROR
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0x00" class="md-nav__link">
+    0x00. 安装
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x01" class="md-nav__link">
+    0x01. 基本用法
+  </a>
+  
+    <nav class="md-nav" aria-label="0x01. 基本用法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    创建变量
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    添加约束
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    检查方程/方程组是否有解
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    约束求解
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0x02-1-2021ror" class="md-nav__link">
+    0x02. 例题1-[西湖论剑2021]ROR
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/bluesadi/0x401RevTrain-Tools/edit/master/docs/z3/00_Z3.md" title="编辑此页" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  <h1>Z3</h1>
+                
+                <p>Z3是微软开发的一款约束求解器，在CTF中我们通常使用Z3来求解复杂的线性方程组或者代替人工来求解复杂的加密算法。</p>
+<h2 id="0x00">0x00. 安装<a class="headerlink" href="#0x00" title="Permanent link">&para;</a></h2>
+<p>pip一键安装：</p>
+<div class="highlight"><pre><span></span><code>$ pip install z3-solver
+</code></pre></div>
+<p>z3也支持了很多其他编程语言，如C#、C/C++、Java等，安装方法请参考<a href="https://github.com/Z3Prover/z3">官方GitHub项目</a>。</p>
+<h2 id="0x01">0x01. 基本用法<a class="headerlink" href="#0x01" title="Permanent link">&para;</a></h2>
+<p>使用z3进行求解大致可以分为以下几个步骤：</p>
+<ol>
+<li>创建变量（未知数）</li>
+<li>添加约束（方程）</li>
+<li>检查方程/方程组是否有解</li>
+<li>约束求解</li>
+</ol>
+<h3 id="_1">创建变量<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<p>方程中存在未知数，我们创建方程的目的就是对这些未知数进行求解。z3支持多种变量类型，最常用的是<code>整数</code>和<code>实数</code>两个类型，创建方法如下：</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">z3</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>        <span class="c1"># 创建一个名为x的整形变量</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">Real</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>       <span class="c1"># 创建一个名为y的实数变量</span>
+</code></pre></div>
+<p>其中<code>x</code>和<code>y</code>的类型都为<code>ArithRef</code>，即与整数或实数有关的算数表达式：</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="k">class</span> <span class="err">&#39;</span><span class="nc">z3</span><span class="o">.</span><span class="n">z3</span><span class="o">.</span><span class="n">ArithRef</span><span class="s1">&#39;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="k">class</span> <span class="err">&#39;</span><span class="nc">z3</span><span class="o">.</span><span class="n">z3</span><span class="o">.</span><span class="n">ArithRef</span><span class="s1">&#39;&gt;</span>
+</code></pre></div>
+<p>也可以使用如下方法创建多个变量：</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">X</span> <span class="o">=</span> <span class="n">Ints</span><span class="p">(</span><span class="s1">&#39;x1 x2 x3 x4&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">Reals</span><span class="p">(</span><span class="s1">&#39;y1 y2 y3 y4&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">X</span>
+<span class="p">[</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">x4</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Y</span>
+<span class="p">[</span><span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y3</span><span class="p">,</span> <span class="n">y4</span><span class="p">]</span>
+</code></pre></div>
+<p>还可以使用<a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017317609699776">列表生成式</a>批量创建变量：</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">Int</span><span class="p">(</span><span class="s1">&#39;x</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20</span><span class="p">)]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">X</span>
+<span class="p">[</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">,</span> <span class="n">x4</span><span class="p">,</span> <span class="n">x5</span><span class="p">,</span> <span class="n">x6</span><span class="p">,</span> <span class="n">x7</span><span class="p">,</span> <span class="n">x8</span><span class="p">,</span> <span class="n">x9</span><span class="p">,</span> <span class="n">x10</span><span class="p">,</span> <span class="n">x11</span><span class="p">,</span> <span class="n">x12</span><span class="p">,</span> <span class="n">x13</span><span class="p">,</span> <span class="n">x14</span><span class="p">,</span> <span class="n">x15</span><span class="p">,</span> <span class="n">x16</span><span class="p">,</span> <span class="n">x17</span><span class="p">,</span> <span class="n">x18</span><span class="p">,</span> <span class="n">x19</span><span class="p">]</span>
+</code></pre></div>
+<h3 id="_2">添加约束<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>方程组由若干个方程（也叫作约束）组成，在z3中想要添加约束首先得创建一个<strong>求解器</strong>：</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Solver</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="k">class</span> <span class="err">&#39;</span><span class="nc">z3</span><span class="o">.</span><span class="n">z3</span><span class="o">.</span><span class="n">Solver</span><span class="s1">&#39;&gt;</span>
+</code></pre></div>
+<p>初始时求解器<code>s</code>并没有任何约束，此时是一个无约束状态：</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span>
+<span class="p">[]</span>
+</code></pre></div>
+<p>接下来演示一下用z3创建一个三元一次方程的写法。首先创建3个变量 <code>x, y, z</code>，并创建约束求解器<code>s</code>：</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">z3</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">Ints</span><span class="p">(</span><span class="s1">&#39;x y z&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Solver</span><span class="p">()</span>
+</code></pre></div>
+<p>使用求解器<code>s</code>的<code>add</code>方法添加约束：</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span> <span class="o">==</span> <span class="mi">6</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">z</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">y</span> <span class="o">-</span> <span class="n">z</span> <span class="o">==</span> <span class="mi">5</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span>
+<span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="n">z</span> <span class="o">==</span> <span class="mi">6</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">z</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span> <span class="o">-</span> <span class="n">z</span> <span class="o">==</span> <span class="mi">5</span><span class="p">]</span>
+</code></pre></div>
+<p>等价于创建了一个三元一次方程组：
+$$
+\begin{cases}
+2x+3y+z=6\
+x-y+2z=-1\
+x+2y-z=5
+\end{cases}
+$$</p>
+<h3 id="_3">检查方程/方程组是否有解<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>在进行求解之前需要先检查方程/方程组是否有解，Solver提供了<code>check</code>方法来完成这一操作。check的结果有sat（有解）、unsat（无解）、unknown（未知）三种，只有当check有解时才能进行求解：</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Solver</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+<span class="n">sat</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+<span class="n">sat</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">model</span><span class="p">()</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+<span class="n">unsat</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="n">x</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+<span class="n">unknown</span>
+</code></pre></div>
+<h3 id="_4">约束求解<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>check为sat之后我们可以调用Solver的<code>model</code>方法进行求解：</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">check</span><span class="p">()</span> <span class="o">==</span> <span class="n">sat</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">model</span><span class="p">())</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;unsat&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p>上述线性方程组的求解结果如下：</p>
+<div class="highlight"><pre><span></span><code><span class="p">[</span><span class="n">z</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">2</span><span class="p">]</span>
+</code></pre></div>
+<p>如果我们只关心其中的一个变量的解还可以这样写：</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">mod</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">model</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">mod</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">as_long</span><span class="p">()</span>
+<span class="mi">2</span>
+</code></pre></div>
+<p>或者：</p>
+<div class="highlight"><pre><span></span><code><span class="n">mod</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">as_long</span><span class="p">()</span>
+</code></pre></div>
+<p>接下来通过一些例题加深对z3的理解。</p>
+<h2 id="0x02-1-2021ror">0x02. 例题1-[西湖论剑2021]ROR<a class="headerlink" href="#0x02-1-2021ror" title="Permanent link">&para;</a></h2>
+<p>这是一道比较简单的题，首先程序读取输入到Str，长度为40个字节：</p>
+<p><img alt="image-20211120214539543" src="../img/image-20211120214539543.png" /></p>
+<p>接下来将输入字符串进行了一段非常复杂的加密：</p>
+<p><img alt="image-20211120214743263" src="../img/image-20211120214743263.png" /></p>
+<p>加密后与密文进行比较：</p>
+<p><img alt="image-20211120214805273" src="../img/image-20211120214805273.png" /></p>
+<p>这段加密非常复杂，手动求解会浪费很多时间，因此可以考虑使用z3自动求解。完整exp如下：</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">z3</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">BOX</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0x65</span><span class="p">,</span> <span class="mh">0x08</span><span class="p">,</span> <span class="mh">0xF7</span><span class="p">,</span> <span class="mh">0x12</span><span class="p">,</span> <span class="mh">0xBC</span><span class="p">,</span> <span class="mh">0xC3</span><span class="p">,</span> <span class="mh">0xCF</span><span class="p">,</span> <span class="mh">0xB8</span><span class="p">,</span> <span class="mh">0x83</span><span class="p">,</span> <span class="mh">0x7B</span><span class="p">,</span> <span class="mh">0x02</span><span class="p">,</span> <span class="mh">0xD5</span><span class="p">,</span> <span class="mh">0x34</span><span class="p">,</span> <span class="mh">0xBD</span><span class="p">,</span> <span class="mh">0x9F</span><span class="p">,</span> <span class="mh">0x33</span><span class="p">,</span> <span class="mh">0x77</span><span class="p">,</span> <span class="mh">0x76</span><span class="p">,</span> <span class="mh">0xD4</span><span class="p">,</span> <span class="mh">0xD7</span><span class="p">,</span> <span class="mh">0xEB</span><span class="p">,</span> <span class="mh">0x90</span><span class="p">,</span> <span class="mh">0x89</span><span class="p">,</span> <span class="mh">0x5E</span><span class="p">,</span> <span class="mh">0x54</span><span class="p">,</span> <span class="mh">0x01</span><span class="p">,</span> <span class="mh">0x7D</span><span class="p">,</span> <span class="mh">0xF4</span><span class="p">,</span> <span class="mh">0x11</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">,</span> <span class="mh">0x99</span><span class="p">,</span> <span class="mh">0x49</span><span class="p">,</span> <span class="mh">0xAD</span><span class="p">,</span> <span class="mh">0x57</span><span class="p">,</span> <span class="mh">0x46</span><span class="p">,</span> <span class="mh">0x67</span><span class="p">,</span> <span class="mh">0x2A</span><span class="p">,</span> <span class="mh">0x9D</span><span class="p">,</span> <span class="mh">0x7F</span><span class="p">,</span> <span class="mh">0xD2</span><span class="p">,</span> <span class="mh">0xE1</span><span class="p">,</span> <span class="mh">0x21</span><span class="p">,</span> <span class="mh">0x8B</span><span class="p">,</span> <span class="mh">0x1D</span><span class="p">,</span> <span class="mh">0x5A</span><span class="p">,</span> <span class="mh">0x91</span><span class="p">,</span> <span class="mh">0x38</span><span class="p">,</span> <span class="mh">0x94</span><span class="p">,</span> <span class="mh">0xF9</span><span class="p">,</span> <span class="mh">0x0C</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0xCA</span><span class="p">,</span> <span class="mh">0xE8</span><span class="p">,</span> <span class="mh">0xCB</span><span class="p">,</span> <span class="mh">0x5F</span><span class="p">,</span> <span class="mh">0x19</span><span class="p">,</span> <span class="mh">0xF6</span><span class="p">,</span> <span class="mh">0xF0</span><span class="p">,</span> <span class="mh">0x3C</span><span class="p">,</span> <span class="mh">0xDE</span><span class="p">,</span> <span class="mh">0xDA</span><span class="p">,</span> <span class="mh">0xEA</span><span class="p">,</span> <span class="mh">0x9C</span><span class="p">,</span> <span class="mh">0x14</span><span class="p">,</span> <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0xA4</span><span class="p">,</span> <span class="mh">0x0D</span><span class="p">,</span> <span class="mh">0x25</span><span class="p">,</span> <span class="mh">0x58</span><span class="p">,</span> <span class="mh">0xFC</span><span class="p">,</span> <span class="mh">0x44</span><span class="p">,</span> <span class="mh">0x86</span><span class="p">,</span> <span class="mh">0x05</span><span class="p">,</span> <span class="mh">0x6B</span><span class="p">,</span> <span class="mh">0x43</span><span class="p">,</span> <span class="mh">0x9A</span><span class="p">,</span> <span class="mh">0x6D</span><span class="p">,</span> <span class="mh">0xD1</span><span class="p">,</span> <span class="mh">0x63</span><span class="p">,</span> <span class="mh">0x98</span><span class="p">,</span> <span class="mh">0x68</span><span class="p">,</span> <span class="mh">0x2D</span><span class="p">,</span> <span class="mh">0x52</span><span class="p">,</span> <span class="mh">0x3D</span><span class="p">,</span> <span class="mh">0xDD</span><span class="p">,</span> <span class="mh">0x88</span><span class="p">,</span> <span class="mh">0xD6</span><span class="p">,</span> <span class="mh">0xD0</span><span class="p">,</span> <span class="mh">0xA2</span><span class="p">,</span> <span class="mh">0xED</span><span class="p">,</span> <span class="mh">0xA5</span><span class="p">,</span> <span class="mh">0x3B</span><span class="p">,</span> <span class="mh">0x45</span><span class="p">,</span> <span class="mh">0x3E</span><span class="p">,</span> <span class="mh">0xF2</span><span class="p">,</span> <span class="mh">0x22</span><span class="p">,</span> <span class="mh">0x06</span><span class="p">,</span> <span class="mh">0xF3</span><span class="p">,</span> <span class="mh">0x1A</span><span class="p">,</span> <span class="mh">0xA8</span><span class="p">,</span> <span class="mh">0x09</span><span class="p">,</span> <span class="mh">0xDC</span><span class="p">,</span> <span class="mh">0x7C</span><span class="p">,</span> <span class="mh">0x4B</span><span class="p">,</span> <span class="mh">0x5C</span><span class="p">,</span> <span class="mh">0x1E</span><span class="p">,</span> <span class="mh">0xA1</span><span class="p">,</span> <span class="mh">0xB0</span><span class="p">,</span> <span class="mh">0x71</span><span class="p">,</span> <span class="mh">0x04</span><span class="p">,</span> <span class="mh">0xE2</span><span class="p">,</span> <span class="mh">0x9B</span><span class="p">,</span> <span class="mh">0xB7</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">,</span> <span class="mh">0x4E</span><span class="p">,</span> <span class="mh">0x16</span><span class="p">,</span> <span class="mh">0x23</span><span class="p">,</span> <span class="mh">0x82</span><span class="p">,</span> <span class="mh">0x56</span><span class="p">,</span> <span class="mh">0xD8</span><span class="p">,</span> <span class="mh">0x61</span><span class="p">,</span> <span class="mh">0xB4</span><span class="p">,</span> <span class="mh">0x24</span><span class="p">,</span> <span class="mh">0x7E</span><span class="p">,</span> <span class="mh">0x87</span><span class="p">,</span> <span class="mh">0xF8</span><span class="p">,</span> <span class="mh">0x0A</span><span class="p">,</span> <span class="mh">0x13</span><span class="p">,</span> <span class="mh">0xE3</span><span class="p">,</span> <span class="mh">0xE4</span><span class="p">,</span> <span class="mh">0xE6</span><span class="p">,</span> <span class="mh">0x1C</span><span class="p">,</span> <span class="mh">0x35</span><span class="p">,</span> <span class="mh">0x2C</span><span class="p">,</span> <span class="mh">0xB1</span><span class="p">,</span> <span class="mh">0xEC</span><span class="p">,</span> <span class="mh">0x93</span><span class="p">,</span> <span class="mh">0x66</span><span class="p">,</span> <span class="mh">0x03</span><span class="p">,</span> <span class="mh">0xA9</span><span class="p">,</span> <span class="mh">0x95</span><span class="p">,</span> <span class="mh">0xBB</span><span class="p">,</span> <span class="mh">0xD3</span><span class="p">,</span> <span class="mh">0x51</span><span class="p">,</span> <span class="mh">0x39</span><span class="p">,</span> <span class="mh">0xE7</span><span class="p">,</span> <span class="mh">0xC9</span><span class="p">,</span> <span class="mh">0xCE</span><span class="p">,</span> <span class="mh">0x29</span><span class="p">,</span> <span class="mh">0x72</span><span class="p">,</span> <span class="mh">0x47</span><span class="p">,</span> <span class="mh">0x6C</span><span class="p">,</span> <span class="mh">0x70</span><span class="p">,</span> <span class="mh">0x15</span><span class="p">,</span> <span class="mh">0xDF</span><span class="p">,</span> <span class="mh">0xD9</span><span class="p">,</span> <span class="mh">0x17</span><span class="p">,</span> <span class="mh">0x74</span><span class="p">,</span> <span class="mh">0x3F</span><span class="p">,</span> <span class="mh">0x62</span><span class="p">,</span> <span class="mh">0xCD</span><span class="p">,</span> <span class="mh">0x41</span><span class="p">,</span> <span class="mh">0x07</span><span class="p">,</span> <span class="mh">0x73</span><span class="p">,</span> <span class="mh">0x53</span><span class="p">,</span> <span class="mh">0x85</span><span class="p">,</span> <span class="mh">0x31</span><span class="p">,</span> <span class="mh">0x8A</span><span class="p">,</span> <span class="mh">0x30</span><span class="p">,</span> <span class="mh">0xAA</span><span class="p">,</span> <span class="mh">0xAC</span><span class="p">,</span> <span class="mh">0x2E</span><span class="p">,</span> <span class="mh">0xA3</span><span class="p">,</span> <span class="mh">0x50</span><span class="p">,</span> <span class="mh">0x7A</span><span class="p">,</span> <span class="mh">0xB5</span><span class="p">,</span> <span class="mh">0x8E</span><span class="p">,</span> <span class="mh">0x69</span><span class="p">,</span> <span class="mh">0x1F</span><span class="p">,</span> <span class="mh">0x6A</span><span class="p">,</span> <span class="mh">0x97</span><span class="p">,</span> <span class="mh">0x55</span><span class="p">,</span> <span class="mh">0x3A</span><span class="p">,</span> <span class="mh">0xB2</span><span class="p">,</span> <span class="mh">0x59</span><span class="p">,</span> <span class="mh">0xAB</span><span class="p">,</span> <span class="mh">0xE0</span><span class="p">,</span> <span class="mh">0x28</span><span class="p">,</span> <span class="mh">0xC0</span><span class="p">,</span> <span class="mh">0xB3</span><span class="p">,</span> <span class="mh">0xBE</span><span class="p">,</span> <span class="mh">0xCC</span><span class="p">,</span> <span class="mh">0xC6</span><span class="p">,</span> <span class="mh">0x2B</span><span class="p">,</span> <span class="mh">0x5B</span><span class="p">,</span> <span class="mh">0x92</span><span class="p">,</span> <span class="mh">0xEE</span><span class="p">,</span> <span class="mh">0x60</span><span class="p">,</span> <span class="mh">0x20</span><span class="p">,</span> <span class="mh">0x84</span><span class="p">,</span> <span class="mh">0x4D</span><span class="p">,</span> <span class="mh">0x0F</span><span class="p">,</span> <span class="mh">0x26</span><span class="p">,</span> <span class="mh">0x4A</span><span class="p">,</span> <span class="mh">0x48</span><span class="p">,</span> <span class="mh">0x0B</span><span class="p">,</span> <span class="mh">0x36</span><span class="p">,</span> <span class="mh">0x80</span><span class="p">,</span> <span class="mh">0x5D</span><span class="p">,</span> <span class="mh">0x6F</span><span class="p">,</span> <span class="mh">0x4C</span><span class="p">,</span> <span class="mh">0xB9</span><span class="p">,</span> <span class="mh">0x81</span><span class="p">,</span> <span class="mh">0x96</span><span class="p">,</span> <span class="mh">0x32</span><span class="p">,</span> <span class="mh">0xFD</span><span class="p">,</span> <span class="mh">0x40</span><span class="p">,</span> <span class="mh">0x8D</span><span class="p">,</span> <span class="mh">0x27</span><span class="p">,</span> <span class="mh">0xC1</span><span class="p">,</span> <span class="mh">0x78</span><span class="p">,</span> <span class="mh">0x4F</span><span class="p">,</span> <span class="mh">0x79</span><span class="p">,</span> <span class="mh">0xC8</span><span class="p">,</span> <span class="mh">0x0E</span><span class="p">,</span> <span class="mh">0x8C</span><span class="p">,</span> <span class="mh">0xE5</span><span class="p">,</span> <span class="mh">0x9E</span><span class="p">,</span> <span class="mh">0xAE</span><span class="p">,</span> <span class="mh">0xBF</span><span class="p">,</span> <span class="mh">0xEF</span><span class="p">,</span> <span class="mh">0x42</span><span class="p">,</span> <span class="mh">0xC5</span><span class="p">,</span> <span class="mh">0xAF</span><span class="p">,</span> <span class="mh">0xA0</span><span class="p">,</span> <span class="mh">0xC2</span><span class="p">,</span> <span class="mh">0xFA</span><span class="p">,</span> <span class="mh">0xC7</span><span class="p">,</span> <span class="mh">0xB6</span><span class="p">,</span> <span class="mh">0xDB</span><span class="p">,</span> <span class="mh">0x18</span><span class="p">,</span> <span class="mh">0xC4</span><span class="p">,</span> <span class="mh">0xA6</span><span class="p">,</span> <span class="mh">0xFE</span><span class="p">,</span> <span class="mh">0xE9</span><span class="p">,</span> <span class="mh">0xF5</span><span class="p">,</span> <span class="mh">0x6E</span><span class="p">,</span> <span class="mh">0x64</span><span class="p">,</span> <span class="mh">0x2F</span><span class="p">,</span> <span class="mh">0xF1</span><span class="p">,</span> <span class="mh">0x1B</span><span class="p">,</span> <span class="mh">0xFB</span><span class="p">,</span> <span class="mh">0xBA</span><span class="p">,</span> <span class="mh">0xA7</span><span class="p">,</span> <span class="mh">0x37</span><span class="p">,</span> <span class="mh">0x8F</span><span class="p">]</span>
+<span class="n">REV_BOX</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">256</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">):</span>
+    <span class="n">REV_BOX</span><span class="p">[</span><span class="n">BOX</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">i</span>
+<span class="n">KEY</span> <span class="o">=</span> <span class="p">[</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">ENC</span> <span class="o">=</span> <span class="p">[</span><span class="mh">0x65</span><span class="p">,</span> <span class="mh">0x55</span><span class="p">,</span> <span class="mh">0x24</span><span class="p">,</span> <span class="mh">0x36</span><span class="p">,</span> <span class="mh">0x9D</span><span class="p">,</span> <span class="mh">0x71</span><span class="p">,</span> <span class="mh">0xB8</span><span class="p">,</span> <span class="mh">0xC8</span><span class="p">,</span> <span class="mh">0x65</span><span class="p">,</span> <span class="mh">0xFB</span><span class="p">,</span> <span class="mh">0x87</span><span class="p">,</span> <span class="mh">0x7F</span><span class="p">,</span> <span class="mh">0x9A</span><span class="p">,</span> <span class="mh">0x9C</span><span class="p">,</span> <span class="mh">0xB1</span><span class="p">,</span> <span class="mh">0xDF</span><span class="p">,</span> <span class="mh">0x65</span><span class="p">,</span> <span class="mh">0x8F</span><span class="p">,</span> <span class="mh">0x9D</span><span class="p">,</span> <span class="mh">0x39</span><span class="p">,</span> <span class="mh">0x8F</span><span class="p">,</span> <span class="mh">0x11</span><span class="p">,</span> <span class="mh">0xF6</span><span class="p">,</span> <span class="mh">0x8E</span><span class="p">,</span> <span class="mh">0x65</span><span class="p">,</span> <span class="mh">0x42</span><span class="p">,</span> <span class="mh">0xDA</span><span class="p">,</span> <span class="mh">0xB4</span><span class="p">,</span> <span class="mh">0x8C</span><span class="p">,</span> <span class="mh">0x39</span><span class="p">,</span> <span class="mh">0xFB</span><span class="p">,</span> <span class="mh">0x99</span><span class="p">,</span> <span class="mh">0x65</span><span class="p">,</span> <span class="mh">0x48</span><span class="p">,</span> <span class="mh">0x6A</span><span class="p">,</span> <span class="mh">0xCA</span><span class="p">,</span> <span class="mh">0x63</span><span class="p">,</span> <span class="mh">0xE7</span><span class="p">,</span> <span class="mh">0xA4</span><span class="p">,</span> <span class="mh">0x79</span><span class="p">]</span>
+<span class="n">flag</span> <span class="o">=</span> <span class="p">[</span><span class="n">BitVec</span><span class="p">(</span><span class="s1">&#39;x</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">40</span><span class="p">)]</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">Solver</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
+        <span class="n">v5</span> <span class="o">=</span> <span class="p">((</span><span class="n">KEY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">3</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="p">(</span><span class="mi">3</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span><span class="p">))</span> <span class="o">|</span> <span class="p">((</span><span class="n">KEY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">3</span><span class="p">])</span> <span class="o">&gt;&gt;</span> <span class="p">((</span><span class="mi">3</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span><span class="p">))</span> <span class="o">|</span> <span class="p">((</span><span class="n">KEY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span><span class="p">))</span> <span class="o">|</span> <span class="p">((</span><span class="n">KEY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">])</span> <span class="o">&gt;&gt;</span> <span class="p">((</span><span class="mi">2</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span><span class="p">))</span> <span class="o">|</span> <span class="p">((</span><span class="n">KEY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span><span class="p">))</span> <span class="o">|</span> <span class="p">((</span><span class="n">KEY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span> <span class="o">&gt;&gt;</span> <span class="p">((</span><span class="mi">1</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span><span class="p">))</span> <span class="o">|</span> <span class="p">((</span><span class="n">KEY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="o">-</span><span class="n">j</span> <span class="o">%</span> <span class="mi">8</span><span class="p">))</span> <span class="o">|</span> <span class="p">((</span><span class="n">KEY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="o">-</span><span class="n">j</span> <span class="o">%</span> <span class="mi">8</span><span class="p">))</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">REV_BOX</span><span class="p">[</span><span class="n">ENC</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="n">i</span><span class="p">]]</span> <span class="o">==</span> <span class="p">(((</span><span class="n">KEY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">7</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="p">(</span><span class="mi">7</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span><span class="p">))</span> <span class="o">|</span> <span class="p">((</span><span class="n">KEY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">7</span><span class="p">])</span> <span class="o">&gt;&gt;</span> <span class="p">((</span><span class="mi">7</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span><span class="p">))</span> <span class="o">|</span> <span class="p">((</span><span class="n">KEY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">6</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="p">(</span><span class="mi">6</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span><span class="p">))</span> <span class="o">|</span> <span class="p">((</span><span class="n">KEY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">6</span><span class="p">])</span> <span class="o">&gt;&gt;</span> <span class="p">((</span><span class="mi">6</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span><span class="p">))</span> <span class="o">|</span> <span class="p">((</span><span class="n">KEY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">5</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="p">(</span><span class="mi">5</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span><span class="p">))</span> <span class="o">|</span> <span class="p">((</span><span class="n">KEY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">5</span><span class="p">])</span> <span class="o">&gt;&gt;</span> <span class="p">((</span><span class="mi">5</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span><span class="p">))</span> <span class="o">|</span> <span class="p">((</span><span class="n">KEY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">4</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">8</span> <span class="o">-</span> <span class="p">(</span><span class="mi">4</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span><span class="p">))</span> <span class="o">|</span> <span class="p">((</span><span class="n">KEY</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">flag</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">4</span><span class="p">])</span> <span class="o">&gt;&gt;</span> <span class="p">((</span><span class="mi">4</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">%</span> <span class="mi">8</span><span class="p">))</span> <span class="o">|</span> <span class="n">v5</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">check</span><span class="p">())</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">model</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">mod</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">as_long</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">flag</span><span class="p">]))</span>
+</code></pre></div>
+<p>输出：</p>
+<div class="highlight"><pre><span></span><code>sat
+Q5la5_3KChtem6_HYHk_NlHhNZz73aCZeK05II96
+</code></pre></div>
+<p>其中有几个要注意的地方，第一个是：</p>
+<div class="highlight"><pre><span></span><code><span class="n">flag</span> <span class="o">=</span> <span class="p">[</span><span class="n">BitVec</span><span class="p">(</span><span class="s1">&#39;x</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">40</span><span class="p">)]</span>
+</code></pre></div>
+<p>注意这里创建的类型是<code>BitVec</code>而不是之前提到过的<code>Int</code>或<code>Real</code>，因为<code>Int</code>和<code>Real</code>都不能进行按位运算，如异或、左移、右移等等。<code>BitVec('x%d' % i, 8)</code>表示创建一个大小为8 bit，名称为<code>xi</code>的比特向量。</p>
+<p>第二个地方是：</p>
+<div class="highlight"><pre><span></span><code><span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">REV_BOX</span><span class="p">[</span><span class="n">ENC</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="n">i</span><span class="p">]]</span> <span class="o">==</span> <span class="o">...</span><span class="p">)</span>
+</code></pre></div>
+<p>这里不能写成：</p>
+<div class="highlight"><pre><span></span><code><span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">ENC</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">BOX</span><span class="p">[</span><span class="o">...</span><span class="p">])</span>
+</code></pre></div>
+<p>因为列表的索引号只能为整数或者slice，不能为<code>ArithRef</code>，即一个算数表达式，所以我们对BOX求了逆得到REV_BOX，再构造方程。</p>
+<p>方程部分直接复制IDA反编译的结果再稍微修改一下即可。</p>
+                
+              
+              
+                
+
+
+  <h2 id="__comments">评论</h2>
+  <div id="disqus_thread"></div>
+  <script>var script,disqus_config=function(){this.page.url="None",this.page.identifier="None"};"undefined"==typeof DISQUS?((script=document.createElement("script")).async=!0,script.src="https://scu-ctf.disqus.com/embed.js",script.setAttribute("data-timestamp",Date.now()),document.body.appendChild(script)):DISQUS.reset({reload:!0,config:disqus_config})</script>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../../keystone/00_Keystone/" class="md-footer__link md-footer__link--prev" aria-label="上一页: Keystone" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              Keystone
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.b1047164.min.js"></script>
+      
+        <script src="https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js"></script>
+      
+        <script src="../../_static/js/extra.js"></script>
+      
+        <script src="https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>
