@@ -33,6 +33,8 @@ nav:
     - Capstone: capstone/00_Capstone.md
   - keystone:
     - Keystone: keystone/00_Keystone.md
+  - z3:
+    - Z3: z3/00_Z3.md
 
 
 # Customization
